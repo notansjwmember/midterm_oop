@@ -127,10 +127,25 @@ form {
   gap: 0.8rem;
 }
 
+.popup-wrapper {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
 .popup-container {
+  position: fixed;
+  top: 50%;
+  bottom: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  padding: 1rem;
+  background-color: var(--background);
 }
 
 .text-container {
