@@ -7,13 +7,13 @@ include_once "./config/db.php";
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Narnia</title>
+  <title>User management | Narnia</title>
   <link rel="stylesheet" href="/styles/global.css">
 </head>
 
 <body>
   <div class="header">
-    <h1>Dashboard</h1>
+    <h1>User management</h1>
     <button type="button" class="primary-button icon-label">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -44,12 +44,56 @@ include_once "./config/db.php";
       <h2>Create a user</h2>
       <p style="opacity: 0.7;">Please fill in the inputs to proceed.</p>
     </div>
-    <form action="">
+    <form id="gen_info_form">
+      <h3 class="sub-title">General information</h3>
       <div class="form-input">
-        <p>Name</p>
-        <input type="text">
+        <label for="name">Name</label>
+        <div class="flex">
+          <input type="text" name="first_name" placeholder="First name">
+          <input type="text" name="last_name" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-input">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Username">
+      </div>
+      <div class="form-input">
+        <label for="password">Password</label>
+        <input type="text" name="password" placeholder="Password">
+      </div>
+      <div class="form-input">
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Email address">
+      </div>
+      <div class="form-input">
+        <label for="phone">Phone</label>
+        <input type="tel" name="phone" placeholder="Phone number">
+      </div>
+      <div class="form-input">
+        <label for="birthdate">Birthdate</label>
+        <input type="date" name="birthdate">
+      </div>
+      <div class="form-input">
+        <label for="city">City</label>
+        <input type="text" name="city" placeholder="City">
+      </div>
+      <div class="form-input">
+        <label for="address">Address</label>
+        <input type="text" name="address" placeholder="Address">
+      </div>
+      <div class="form-input">
+        <label for="postal_code">Postal Code</label>
+        <input type="text" name="postal_code" placeholder="Postal code">
       </div>
     </form>
+    <div class="flex button-container">
+      <button type="button" class="secondary-button">
+        Cancel
+      </button>
+      <button type="submit" class="primary-button">
+        Next step
+      </button>
+    </div>
   </div>
 </body>
 

@@ -40,7 +40,8 @@ body {
   border: 1px solid var(--border-line-clr);
 }
 
-.table-header, .table-content {
+.table-header,
+.table-content {
   display: grid;
   grid-template-columns: 40px 1fr 1fr 1fr 1fr 40px;
 }
@@ -63,7 +64,8 @@ body {
   background-color: var(--table-content-bg);
 }
 
-.loader, .empty {
+.loader,
+.empty {
   grid-column: span 6;
   justify-self: center;
 }
@@ -95,27 +97,40 @@ button:hover {
   gap: 0.2rem;
 }
 
+.secondary-button {
+  background-color: var(--table-header-bg);
+  color: var(--foreground);
+}
+
 .primary-button {
   background-color: var(--primary-color);
 }
 
 .popup-container {
+  display: grid;
   min-width: 180px;
   min-height: 200px;
 }
 
-.form-input input {
+input, select, option {
   outline: none;
   background-color: transparent;
   border: 1px solid var(--border-line-clr);
   border-radius: 0.3rem;
   padding: 0.5rem;
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .popup-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .text-container {
@@ -124,8 +139,29 @@ button:hover {
   gap: 0.3rem;
 }
 
+.sub-title {
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.line {
+  height: 1px;
+  width: 100%;
+  background-color: var(--border-line-clr);
+}
+
+.flex {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button-container {
+  align-self: flex-end;
+}
+
 .form-input {
   display: grid;
-  grid-template-columns: minmax(50px, 120px) 1fr;
+  grid-template-columns: minmax(100px, 140px) 1fr;
   align-items: center;
 }

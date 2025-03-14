@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == "GET") {
-  $query = "SELECT * from users ORDER BY id DESC";
+  $query = "SELECT * from users ORDER BY user_id DESC";
   $result = mysqli_query($conn, $query);
 
   if (!$result) {

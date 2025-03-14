@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "browser-sync": "^3.0.3"
+    "browser-sync": "^3.0.3",
+    "php": "file:"
   }
 }
