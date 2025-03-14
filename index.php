@@ -38,11 +38,26 @@ include_once "./config/db.php";
       </div>
     </div>
   </div>
+
+  <div class="popup-container">
+    <div class="text-container">
+      <h2>Create a user</h2>
+      <p style="opacity: 0.7;">Please fill in the inputs to proceed.</p>
+    </div>
+    <form action="">
+      <div class="form-input">
+        <p>Name</p>
+        <input type="text">
+      </div>
+    </form>
+  </div>
 </body>
 
 </html>
 
 <script>
+  const isOpen = false;
+
   document.addEventListener("DOMContentLoaded", fetchUsers());
 
   async function fetchUsers() {
