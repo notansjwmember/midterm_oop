@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.1.0 # Use the MySQL version you need
+    environment:
+      MYSQL_ROOT_PASSWORD: skibiditoilet # Change this
+      MYSQL_DATABASE: oop_php # Change this
+      MYSQL_USER: user # Optional: Create a non-root user
+      MYSQL_PASSWORD: skibiditoilet # Optional: Set user password
+    ports:
+      - "3306:3306" # Expose MySQL so you can connect to it from your local PHP
+    volumes:
+      - ./mysql_data:/var/lib/mysql # Persist database data
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80" # Access phpMyAdmin via http://localhost:8080
+    environment:
+      PMA_HOST: db # Connect phpMyAdmin to MySQL
+    depends_on:
+      - db

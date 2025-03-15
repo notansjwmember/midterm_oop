@@ -26,10 +26,11 @@
 }
 
 .back-button {
+  height: 100%;
+  width: fit-content;
   place-items: center;
   background: transparent;
   padding: 0;
-  margin-right: 7px;
 
   svg {
     margin-top: 3px;

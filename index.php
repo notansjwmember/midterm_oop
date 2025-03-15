@@ -1,6 +1,7 @@
 <?php
 include_once './config/db.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +15,7 @@ include_once './config/db.php';
 <body>
   <div class="header">
     <h1>User management</h1>
-    <button type="button" class="primary-button icon-label" onclick="openCreatePopup()">
+    <button type="button" class="primary-button icon-label" onclick="openPopup()">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M12 5l0 14" />
@@ -93,8 +94,6 @@ include_once './config/db.php';
       </form>
       <form id="per_info_form">
         <div class="icon-label">
-          <div class="vertical-line"></div>
-
           <h3 class="sub-title">Personal information</h3>
         </div>
         <div class="form-input">
@@ -150,6 +149,8 @@ include_once './config/db.php';
   const userPhotoContainer = document.querySelector(".user-photo-container");
   const uploadButton = document.querySelector(".upload-button");
 
+  let step = 0;
+
   document.addEventListener("DOMContentLoaded", fetchUsers());
 
   popup.addEventListener("click", (e) => {
@@ -175,7 +176,7 @@ include_once './config/db.php';
     }
   })
 
-  function openCreatePopup() {
+  function openPopup() {
     popup.style.display = "flex";
     popup.style.visibility = "visible";
 
@@ -197,7 +198,6 @@ include_once './config/db.php';
     }, 300);
   }
 
-  let step = 0;
 
   function handleStep(num) {
     const nextStep = document.querySelector("#next-step");
@@ -220,18 +220,21 @@ include_once './config/db.php';
 
       const backButton = document.createElement("button");
       backButton.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M5 12l14 0" />
         <path d="M5 12l6 6" />
         <path d="M5 12l6 -6" />
       </svg>
-    `;
+      `;
+
       backButton.type = "button";
       backButton.classList.add("back-button");
       backButton.onclick = () => handleStep(-1);
+
       nextForm.querySelector(".icon-label").prepend(backButton);
     } else if (step === 0) {
+      nextStep.textContent = "Next step";
       nextForm.style.display = "none";
       prevForm.style.display = "flex";
     }

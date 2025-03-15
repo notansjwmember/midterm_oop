@@ -3,7 +3,7 @@ let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/midterm_oop
+cd ~/code/activity-php/midterm_oop
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -13,35 +13,12 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +41 term://~/midterm_oop//14560:C:/Windows/system32/cmd.exe
-badd +42 ~/midterm_oop/index.php
-badd +145 styles/global.css
+badd +147 styles/global.css
+badd +3 ~/code/activity-php/midterm_oop/index.php
+badd +75 health://
 argglobal
 %argdel
-tabnew +setlocal\ bufhidden=wipe
-tabrewind
-argglobal
-if bufexists(fnamemodify("term://~/midterm_oop//14560:C:/Windows/system32/cmd.exe", ":p")) | buffer term://~/midterm_oop//14560:C:/Windows/system32/cmd.exe | else | edit term://~/midterm_oop//14560:C:/Windows/system32/cmd.exe | endif
-if &buftype ==# 'terminal'
-  silent file term://~/midterm_oop//14560:C:/Windows/system32/cmd.exe
-endif
-balt ~/midterm_oop/index.php
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=99
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 41 - ((40 * winheight(0) + 32) / 64)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 41
-normal! 0
-tabnext
-edit ~/midterm_oop/index.php
+edit ~/code/activity-php/midterm_oop/index.php
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -58,8 +35,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 118 + 118) / 237)
-exe 'vert 2resize ' . ((&columns * 118 + 118) / 237)
+exe 'vert 1resize ' . ((&columns * 141 + 141) / 283)
+exe 'vert 2resize ' . ((&columns * 141 + 141) / 283)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -70,49 +47,76 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-7,11fold
-18,21fold
-17,23fold
-15,24fold
-28,33fold
-36,37fold
-35,38fold
-27,39fold
-44,46fold
-53,55fold
-51,56fold
-58,60fold
-62,64fold
-66,68fold
+8,12fold
+19,22fold
+18,24fold
+16,25fold
+29,34fold
+37,38fold
+36,39fold
+28,40fold
+47,52fold
+46,53fold
+55,57fold
+45,58fold
+65,67fold
+63,68fold
 70,72fold
 74,76fold
 78,80fold
 82,84fold
 86,88fold
-49,89fold
-92,93fold
-95,96fold
-91,97fold
-43,98fold
-42,99fold
-14,100fold
-116,121fold
-110,123fold
-105,124fold
+90,92fold
+61,93fold
+96,99fold
+101,103fold
+105,107fold
+109,111fold
+118,122fold
+117,123fold
+125,126fold
+115,127fold
+113,128fold
+95,129fold
+132,133fold
+135,136fold
+131,137fold
+44,138fold
+43,139fold
+15,140fold
+157,158fold
+156,159fold
+162,163fold
+172,175fold
+166,176fold
+183,185fold
+179,186fold
+190,193fold
+196,197fold
+189,198fold
+213,214fold
+224,228fold
+217,229fold
+230,234fold
+235,237fold
+203,238fold
+248,253fold
+242,255fold
+145,256fold
 let &fdl = &fdl
-let s:l = 42 - ((1 * winheight(0) + 31) / 63)
+let s:l = 3 - ((2 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 42
-normal! 027|
+keepjumps 3
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("styles/global.css", ":p")) | buffer styles/global.css | else | edit styles/global.css | endif
 if &buftype ==# 'terminal'
   silent file styles/global.css
 endif
-balt ~/midterm_oop/index.php
+balt ~/code/activity-php/midterm_oop/index.php
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -122,44 +126,53 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-3,9fold
-12,17fold
-20,28fold
-31,34fold
-37,40fold
-44,46fold
-49,57fold
-60,64fold
-68,70fold
-73,78fold
-81,87fold
-90,91fold
-94,97fold
-100,102fold
-105,106fold
-109,112fold
-115,121fold
-124,127fold
-130,138fold
-141,149fold
-152,155fold
+2,5fold
+8,11fold
+14,17fold
+20,22fold
+25,27fold
+30,35fold
+38,47fold
+50,56fold
+58,59fold
+65,72fold
+75,77fold
+80,83fold
+86,89fold
+92,93fold
+96,105fold
+107,109fold
+111,114fold
+116,117fold
+120,125fold
+128,142fold
+145,155fold
 158,161fold
-164,167fold
-170,172fold
-175,176fold
-179,182fold
+165,167fold
+170,178fold
+181,185fold
+189,191fold
+194,199fold
+202,203fold
+206,207fold
+210,212fold
+215,218fold
+221,224fold
+227,231fold
+233,234fold
+237,240fold
+243,246fold
 let &fdl = &fdl
-let s:l = 145 - ((25 * winheight(0) + 31) / 63)
+let s:l = 1 - ((0 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 145
+keepjumps 1
 normal! 015|
 wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 118 + 118) / 237)
-exe 'vert 2resize ' . ((&columns * 118 + 118) / 237)
-tabnext 2
+exe 'vert 1resize ' . ((&columns * 141 + 141) / 283)
+exe 'vert 2resize ' . ((&columns * 141 + 141) / 283)
+tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif

@@ -92,6 +92,9 @@ form {
 #per_info_form {
   display: none;
 }
+#per_info_form .icon-label {
+  gap: 0.4rem;
+}
 
 .user-photo-wrapper {
   cursor: pointer;
@@ -225,10 +228,11 @@ form {
 }
 
 .back-button {
+  height: 100%;
+  width: fit-content;
   place-items: center;
   background: transparent;
   padding: 0;
-  margin-right: 7px;
 }
 .back-button svg {
   margin-top: 3px;
@@ -241,7 +245,7 @@ form {
 }
 
 .vertical-line {
-  height: 30px;
+  height: 25px;
   width: 1px;
   background-color: #363636;
 }
