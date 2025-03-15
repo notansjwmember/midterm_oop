@@ -1,0 +1,59 @@
+@import "./variables";
+
+@import url("https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: $foreground;
+  font-family: "Schibsted Grotesk", sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  background-color: $background;
+  margin: 5rem 30rem;
+}
+
+button {
+  outline: none;
+  border: none;
+  padding: 0 0.8rem;
+  height: 35px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+input,
+select,
+option,
+textarea {
+  outline: none;
+  background-color: transparent;
+  border: 1px solid $border-line-clr;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+textarea {
+  resize: none;
+  min-height: 70px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}

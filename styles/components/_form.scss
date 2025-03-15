@@ -1,0 +1,44 @@
+@import "../base/variables";
+
+.form-input {
+  display: grid;
+  grid-template-columns: minmax(100px, 140px) 1fr;
+  align-items: start;
+}
+
+.user-photo-input {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  border: 1px solid $border-line-clr;
+  border-radius: 0.3rem;
+  padding: 1rem 0;
+
+  p {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .upload-button {
+    border-radius: 50%;
+    background-color: $border-line-clr;
+    transition: 300ms $ease-trans;
+  }
+
+  &:hover {
+    .upload-button {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.user-photo-container {
+  display: none;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  background-color: red;
+}

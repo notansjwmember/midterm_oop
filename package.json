@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "bs": "browser-sync start --config bs-config.js",
-    "scss": "sass --watch styles/global.scss:style/global.css",
+    "scss": "sass --watch styles/global.scss:styles/global.css",
     "start": "concurrently \"php -S localhost:8000\" \"npm run scss\" \"npm run bs\""
   },
   "keywords": [],

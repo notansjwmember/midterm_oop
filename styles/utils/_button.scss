@@ -1,0 +1,20 @@
+@import "../base/variables";
+
+.button-container {
+  align-self: flex-end;
+}
+
+.primary-button {
+  background-color: $primary-color;
+}
+
+.secondary-button {
+  background-color: $table-header-bg;
+  color: $foreground;
+}
+
+.icon-button {
+  display: flex;
+  place-items: center;
+  padding: 8px;
+}
