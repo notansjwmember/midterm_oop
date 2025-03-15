@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "browser-sync start --config bs-config.js"
+    "bs": "browser-sync start --config bs-config.js",
+    "scss": "sass --watch styles/global.scss:style/global.css",
+    "start": "concurrently \"php -S localhost:8000\" \"npm run scss\" \"npm run bs\""
   },
   "keywords": [],
   "author": "",
@@ -12,6 +14,8 @@
   "description": "",
   "dependencies": {
     "browser-sync": "^3.0.3",
-    "php": "file:"
+    "concurrently": "^9.1.2",
+    "php": "file:",
+    "sass": "^1.85.1"
   }
 }

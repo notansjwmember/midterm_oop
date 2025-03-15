@@ -1,5 +1,5 @@
 <?php
-include_once "./config/db.php";
+include_once './config/db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,14 +56,6 @@ include_once "./config/db.php";
           </div>
         </div>
         <div class="form-input">
-          <label for="username">Username</label>
-          <input type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-input">
-          <label for="password">Password</label>
-          <input type="text" name="password" placeholder="Password">
-        </div>
-        <div class="form-input">
           <label for="email">Email</label>
           <input type="email" name="email" placeholder="Email address">
         </div>
@@ -88,6 +80,37 @@ include_once "./config/db.php";
           <input type="text" name="postal_code" placeholder="Postal code">
         </div>
       </form>
+      <form id="per_info_form">
+        <h3 class="sub-title">Personal information</h3>
+        <div class="form-input">
+          <label for="username">Username</label>
+          <input type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-input">
+          <label for="password">Password</label>
+          <input type="text" name="password" placeholder="Password">
+        </div>
+        <div class="form-input">
+          <label for="bio">Biography</label>
+          <textarea name="bio" placeholder="Say something about yourself"></textarea>
+        </div>
+        <div class="form-input">
+          <label for="userPhoto">Profile picture</label>
+          <div class="user-photo-input">
+            <div class="user-photo-container"></div>
+            <div class="icon-button upload-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                <path d="M7 9l5 -5l5 5" />
+                <path d="M12 4l0 12" />
+              </svg>
+            </div>
+            <p>Click to upload or drag and drop<br />
+              SVG, PNG, or JPG (max. 2MB)</p>
+          </div>
+        </div>
+      </form>
       <div class="flex button-container">
         <button type="button" class="secondary-button" onclick="closePopup()">
           Cancel
@@ -103,32 +126,37 @@ include_once "./config/db.php";
 </html>
 
 <script>
-  let isOpen = false;
   const popup = document.querySelector(".popup-wrapper");
   const popupContainer = document.querySelector(".popup-container");
 
   document.addEventListener("DOMContentLoaded", fetchUsers());
 
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) {
+      closePopup();
+    }
+  })
+
   function openCreatePopup() {
-    isOpen = !isOpen;
     popup.style.display = "flex";
     popup.style.visibility = "visible";
 
     setTimeout(() => {
-      popup.style.opacity = 1;      
+      popup.style.opacity = 1;
       popupContainer.style.transform = "scale(1)";
     }, 0);
   }
 
   function closePopup() {
-    isOpen = !isOpen;
-    
     setTimeout(() => {
       popup.style.opacity = 0;
       popupContainer.style.transform = "scale(0.95)";
       popup.style.visibility = "hidden";
     }, 0);
 
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 300);
   }
 
   async function fetchUsers() {
@@ -140,7 +168,7 @@ include_once "./config/db.php";
     if (data.length === 0) {
       tableContent.innerHTML = `
       <div class="empty">
-      <svg  xmlns="http://www.w3.org/2000/svg"  width="94"  height="94"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-mood-sad-dizzy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M14.5 16.05a3.5 3.5 0 0 0 -5 0" /><path d="M8 9l2 2" /><path d="M10 9l-2 2" /><path d="M14 9l2 2" /><path d="M16 9l-2 2" /></svg>
+      <svg  xmlns="http://www.w3.org/2000/svg"  width="94"  height="94"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.3"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-mood-sad-dizzy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M14.5 16.05a3.5 3.5 0 0 0 -5 0" /><path d="M8 9l2 2" /><path d="M10 9l-2 2" /><path d="M14 9l2 2" /><path d="M16 9l-2 2" /></svg>
       <h3>No users found</h3>
       </div>
     `;
