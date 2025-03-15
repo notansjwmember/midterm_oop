@@ -18,3 +18,16 @@
   place-items: center;
   padding: 8px;
 }
+
+.icon-circle {
+  border: 1px solid $border-line-clr;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+
+.back-button {
+  place-items: center;
+  background: transparent;
+  padding: 0;
+  margin-right: 10px;
+}

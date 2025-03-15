@@ -6,7 +6,11 @@
   align-items: start;
 }
 
-.user-photo-input {
+#per_info_form {
+  display: none;
+}
+
+.user-photo-wrapper {
   cursor: pointer;
   display: flex;
   flex-direction: column;

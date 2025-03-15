@@ -41,9 +41,20 @@ include_once './config/db.php';
 
   <div class="popup-wrapper">
     <div class="popup-container">
-      <div class="text-container">
-        <h2>Create a user</h2>
-        <p style="opacity: 0.7;">Please fill in the inputs to proceed.</p>
+      <div class="icon-label" style="gap: 1rem;">
+        <div class="icon-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+            <path d="M16 19h6" />
+            <path d="M19 16v6" />
+            <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+          </svg>
+        </div>
+        <div class="text-container">
+          <h2>Create a user</h2>
+          <p style="opacity: 0.7;">Please fill in the inputs to proceed.</p>
+        </div>
       </div>
       <div class="line"></div>
       <form id="gen_info_form">
@@ -81,7 +92,9 @@ include_once './config/db.php';
         </div>
       </form>
       <form id="per_info_form">
-        <h3 class="sub-title">Personal information</h3>
+        <div class="icon-label">
+          <h3 class="sub-title">Personal information</h3>
+        </div>
         <div class="form-input">
           <label for="username">Username</label>
           <input type="text" name="username" placeholder="Username">
@@ -95,8 +108,8 @@ include_once './config/db.php';
           <textarea name="bio" placeholder="Say something about yourself"></textarea>
         </div>
         <div class="form-input">
-          <label for="userPhoto">Profile picture</label>
-          <div class="user-photo-input">
+          <label for="user_photo">Profile picture</label>
+          <div class="user-photo-wrapper">
             <div class="user-photo-container"></div>
             <div class="icon-button upload-button">
               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload">
@@ -108,14 +121,15 @@ include_once './config/db.php';
             </div>
             <p>Click to upload or drag and drop<br />
               SVG, PNG, or JPG (max. 2MB)</p>
+            <input style="display: none;" type="file" name="user_photo">
           </div>
         </div>
       </form>
       <div class="flex button-container">
-        <button type="button" class="secondary-button" onclick="closePopup()">
+        <button id="prev-step" type="button" class="secondary-button" onclick="closePopup()">
           Cancel
         </button>
-        <button type="submit" class="primary-button">
+        <button id="next-step" type="submit" class="primary-button" onclick="handleStep(1)">
           Next step
         </button>
       </div>
@@ -128,6 +142,8 @@ include_once './config/db.php';
 <script>
   const popup = document.querySelector(".popup-wrapper");
   const popupContainer = document.querySelector(".popup-container");
+  const userPhotoWrapper = document.querySelector(".user-photo-wrapper");
+  const userPhotoInput = document.querySelector("input[name='user_photo']");
 
   document.addEventListener("DOMContentLoaded", fetchUsers());
 
@@ -135,6 +151,10 @@ include_once './config/db.php';
     if (e.target === popup) {
       closePopup();
     }
+  })
+
+  userPhotoWrapper.addEventListener("click", () => {
+    userPhotoInput.click();
   })
 
   function openCreatePopup() {
@@ -158,6 +178,44 @@ include_once './config/db.php';
       popup.style.display = "none";
     }, 300);
   }
+
+  let step = 0;
+  const nextStep = document.querySelector("#next-step");
+  const nextForm = document.querySelector("#per_info_form");
+  const prevForm = document.querySelector("#gen_info_form");
+
+  function handleStep(num) {
+    step += num;
+
+    const existingBackButton = document.querySelector(".back-button");
+    if (existingBackButton) {
+      existingBackButton.remove();
+    }
+
+    if (step === 1) {
+      nextForm.style.display = "flex";
+      prevForm.style.display = "none";
+
+      const backButton = document.createElement("button");
+      backButton.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M5 12l14 0" />
+        <path d="M5 12l6 6" />
+        <path d="M5 12l6 -6" />
+      </svg>
+    `;
+      backButton.type = "button";
+      backButton.classList.add("back-button");
+      backButton.onclick = () => handleStep(-1);
+
+      nextForm.querySelector(".icon-label").prepend(backButton);
+    } else if (step === 0) {
+      nextForm.style.display = "none";
+      prevForm.style.display = "flex";
+    }
+  }
+
 
   async function fetchUsers() {
     const tableContent = document.querySelector(".table-content");

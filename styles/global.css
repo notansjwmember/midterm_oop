@@ -1,4 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap");
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-label {
+  display: flex;
+  place-items: center;
+  gap: 0.2rem;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sub-title {
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.flex {
+  display: flex;
+  gap: 0.5rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -16,6 +44,7 @@ body {
   margin: 0;
   background-color: #0e0e0e;
   margin: 5rem 30rem;
+  font-size: 14px;
 }
 
 button {
@@ -54,37 +83,17 @@ form {
   gap: 0.8rem;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.icon-label {
-  display: flex;
-  place-items: center;
-  gap: 0.2rem;
-}
-
-.text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.sub-title {
-  text-transform: uppercase;
-  font-size: 1rem;
-  margin-bottom: 15px;
-}
-
 .form-input {
   display: grid;
   grid-template-columns: minmax(100px, 140px) 1fr;
   align-items: start;
 }
 
-.user-photo-input {
+#per_info_form {
+  display: none;
+}
+
+.user-photo-wrapper {
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -95,16 +104,16 @@ form {
   border-radius: 0.3rem;
   padding: 1rem 0;
 }
-.user-photo-input p {
+.user-photo-wrapper p {
   text-align: center;
   font-size: 0.8rem;
 }
-.user-photo-input .upload-button {
+.user-photo-wrapper .upload-button {
   border-radius: 50%;
   background-color: #363636;
   transition: 300ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
-.user-photo-input:hover .upload-button {
+.user-photo-wrapper:hover .upload-button {
   transform: scale(1.1);
 }
 
@@ -137,9 +146,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 550px;
-  min-width: 180px;
-  min-height: 200px;
+  width: 550px;
   padding: 1rem;
   background-color: #0e0e0e;
   border: 1px solid #363636;
@@ -209,6 +216,19 @@ form {
   display: flex;
   place-items: center;
   padding: 8px;
+}
+
+.icon-circle {
+  border: 1px solid #363636;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+
+.back-button {
+  place-items: center;
+  background: transparent;
+  padding: 0;
+  margin-right: 10px;
 }
 
 .line {
