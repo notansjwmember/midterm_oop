@@ -14,7 +14,7 @@ include_once "./config/db.php";
 <body>
   <div class="header">
     <h1>User management</h1>
-    <button type="button" class="primary-button icon-label">
+    <button type="button" class="primary-button icon-label" onclick="openCreatePopup()">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M12 5l0 14" />
@@ -45,6 +45,7 @@ include_once "./config/db.php";
         <h2>Create a user</h2>
         <p style="opacity: 0.7;">Please fill in the inputs to proceed.</p>
       </div>
+      <div class="line"></div>
       <form id="gen_info_form">
         <h3 class="sub-title">General information</h3>
         <div class="form-input">
@@ -88,7 +89,7 @@ include_once "./config/db.php";
         </div>
       </form>
       <div class="flex button-container">
-        <button type="button" class="secondary-button">
+        <button type="button" class="secondary-button" onclick="closePopup()">
           Cancel
         </button>
         <button type="submit" class="primary-button">
@@ -102,9 +103,33 @@ include_once "./config/db.php";
 </html>
 
 <script>
-  const isOpen = false;
+  let isOpen = false;
+  const popup = document.querySelector(".popup-wrapper");
+  const popupContainer = document.querySelector(".popup-container");
 
   document.addEventListener("DOMContentLoaded", fetchUsers());
+
+  function openCreatePopup() {
+    isOpen = !isOpen;
+    popup.style.display = "flex";
+    popup.style.visibility = "visible";
+
+    setTimeout(() => {
+      popup.style.opacity = 1;      
+      popupContainer.style.transform = "scale(1)";
+    }, 0);
+  }
+
+  function closePopup() {
+    isOpen = !isOpen;
+    
+    setTimeout(() => {
+      popup.style.opacity = 0;
+      popupContainer.style.transform = "scale(0.95)";
+      popup.style.visibility = "hidden";
+    }, 0);
+
+  }
 
   async function fetchUsers() {
     const tableContent = document.querySelector(".table-content");
