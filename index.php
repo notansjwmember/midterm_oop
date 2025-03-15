@@ -93,6 +93,8 @@ include_once './config/db.php';
       </form>
       <form id="per_info_form">
         <div class="icon-label">
+          <div class="vertical-line"></div>
+
           <h3 class="sub-title">Personal information</h3>
         </div>
         <div class="form-input">

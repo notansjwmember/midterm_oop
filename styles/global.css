@@ -240,4 +240,10 @@ form {
   background-color: #363636;
 }
 
+.vertical-line {
+  height: 30px;
+  width: 1px;
+  background-color: #363636;
+}
+
 /*# sourceMappingURL=global.css.map */
