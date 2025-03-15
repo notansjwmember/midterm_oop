@@ -110,7 +110,7 @@ include_once './config/db.php';
         <div class="form-input">
           <label for="user_photo">Profile picture</label>
           <div class="user-photo-wrapper">
-            <div class="user-photo-container"></div>
+            <img class="user-photo-container"></img>
             <div class="icon-button upload-button">
               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -119,14 +119,14 @@ include_once './config/db.php';
                 <path d="M12 4l0 12" />
               </svg>
             </div>
-            <p>Click to upload or drag and drop<br />
+            <p id="user-photo-text">Click to upload or drag and drop<br />
               SVG, PNG, or JPG (max. 2MB)</p>
             <input style="display: none;" type="file" name="user_photo">
           </div>
         </div>
       </form>
       <div class="flex button-container">
-        <button id="prev-step" type="button" class="secondary-button" onclick="closePopup()">
+        <button type="button" class="secondary-button" onclick="closePopup()">
           Cancel
         </button>
         <button id="next-step" type="submit" class="primary-button" onclick="handleStep(1)">
@@ -144,6 +144,9 @@ include_once './config/db.php';
   const popupContainer = document.querySelector(".popup-container");
   const userPhotoWrapper = document.querySelector(".user-photo-wrapper");
   const userPhotoInput = document.querySelector("input[name='user_photo']");
+  const userPhotoText = document.querySelector("#user-photo-text")
+  const userPhotoContainer = document.querySelector(".user-photo-container");
+  const uploadButton = document.querySelector(".upload-button");
 
   document.addEventListener("DOMContentLoaded", fetchUsers());
 
@@ -155,6 +158,19 @@ include_once './config/db.php';
 
   userPhotoWrapper.addEventListener("click", () => {
     userPhotoInput.click();
+  })
+
+  userPhotoInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    uploadButton.style.display = "none";
+    userPhotoText.textContent = userPhotoInput.files[0].name;
+
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      userPhotoContainer.src = blobUrl;
+      userPhotoContainer.style.display = "block";
+    }
   })
 
   function openCreatePopup() {
@@ -180,11 +196,14 @@ include_once './config/db.php';
   }
 
   let step = 0;
-  const nextStep = document.querySelector("#next-step");
-  const nextForm = document.querySelector("#per_info_form");
-  const prevForm = document.querySelector("#gen_info_form");
 
   function handleStep(num) {
+    const nextStep = document.querySelector("#next-step");
+    const nextForm = document.querySelector("#per_info_form");
+    const prevForm = document.querySelector("#gen_info_form");
+
+    // prevent from going out of bounds
+    if (step + num > 1) return;
     step += num;
 
     const existingBackButton = document.querySelector(".back-button");
@@ -195,6 +214,7 @@ include_once './config/db.php';
     if (step === 1) {
       nextForm.style.display = "flex";
       prevForm.style.display = "none";
+      nextStep.textContent = "Create user";
 
       const backButton = document.createElement("button");
       backButton.innerHTML = `
@@ -208,7 +228,6 @@ include_once './config/db.php';
       backButton.type = "button";
       backButton.classList.add("back-button");
       backButton.onclick = () => handleStep(-1);
-
       nextForm.querySelector(".icon-label").prepend(backButton);
     } else if (step === 0) {
       nextForm.style.display = "none";

@@ -228,7 +228,10 @@ form {
   place-items: center;
   background: transparent;
   padding: 0;
-  margin-right: 10px;
+  margin-right: 7px;
+}
+.back-button svg {
+  margin-top: 3px;
 }
 
 .line {
