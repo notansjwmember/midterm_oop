@@ -7,6 +7,11 @@
   transition: 250ms $ease-trans;
 }
 
+.invalid-input {
+  border-color: $error-color !important;
+  transition: 250ms $ease-trans;
+}
+
 .password-input {
   display: grid;
   grid-template-columns: 90% 1fr;

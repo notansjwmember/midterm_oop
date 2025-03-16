@@ -17,7 +17,7 @@
 .table-header,
 .table-data {
   display: grid;
-  grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr 40px;
+  grid-template-columns: 40px 1fr 130px 1fr 1fr 180px 40px;
 }
 
 .table-content {
@@ -44,7 +44,7 @@
 .table-data {
   align-items: center;
   width: 100%;
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border-bottom: 1px solid $border-line-clr;
 
   .action-button {
@@ -60,6 +60,7 @@
     .user-info {
       display: flex;
       flex-direction: column;
+      gap: 0.2rem;
     }
 
     .user-photo-container {
@@ -83,5 +84,12 @@
 }
 
 .end-message {
+  padding: 1rem 0;
+}
+
+.pagination {
+  display: flex;
+  place-items: center;
+  gap: 1rem;
   padding: 1rem 0;
 }

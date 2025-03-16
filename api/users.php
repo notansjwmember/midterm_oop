@@ -6,18 +6,26 @@ header("Content-Type: application/json");
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == "GET") {
-  $query = "SELECT * from users ORDER BY user_id DESC";
-  $result = mysqli_query($conn, $query);
+  $limit = isset($_GET["limit"]) ? (int)$_GET["limit"] : 13;
+  $page = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
+  $offset = ($page - 1) * $limit;
+
+  $countQuery = $conn->query("SELECT COUNT(*) as total FROM users");
+  $totalUsers = $countQuery->fetch_assoc()["total"];
+  $totalPages = ceil($totalUsers / $limit);
+
+  $query = $conn->prepare("SELECT * FROM users ORDER BY user_id ASC LIMIT ? OFFSET ?");
+  $query->bind_param("ii", $limit, $offset);
+  $query->execute();
+  $result = $query->get_result();
+  $users = $result->fetch_all(MYSQLI_ASSOC);
 
   if (!$result) {
     echo json_encode(["error" => mysqli_error($conn)]);
     exit;
   }
 
-  $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  echo json_encode($users);
-
-  mysqli_free_result($result);
+  echo json_encode(["users" => $users, "totalPages" => $totalPages]);
 }
 
 $fields = [
@@ -42,19 +50,6 @@ $field_types = str_repeat("s", count($fields));
 if ($method == "POST") {
   $data = $_POST;
 
-  foreach ($fields as $field) {
-    if ($field === "user_photo") {
-      if (!isset($_FILES["user_photo"]) || $_FILES["user_photo"]["error"] !== UPLOAD_ERR_OK) {
-        die(json_encode(["error" => "File upload error"]));
-      }
-      continue;
-    }
-
-    if (empty($data[$field])) {
-      die(json_encode(["error" => "$field is required"]));
-    }
-  }
-
   $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
   $uploadDir = "../uploads/";
@@ -62,18 +57,21 @@ if ($method == "POST") {
     mkdir($uploadDir, 0777, true);
   }
 
-  $fileTmp = $_FILES["user_photo"]["tmp_name"];
-  $fileName = basename($_FILES["user_photo"]["name"]);
-  $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+  if (isset($_FILES["user_photo"]) && $_FILES["user_photo"]["error"] === UPLOAD_ERR_OK) {
+    $fileTmp = $_FILES["user_photo"]["tmp_name"];
+    $fileName = basename($_FILES["user_photo"]["name"]);
+    $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
 
-  $newFileName = uniqid("profile_", true) . "." . $fileType;
-  $uploadPath = $uploadDir . $newFileName;
+    $newFileName = uniqid("profile_", true) . "." . $fileType;
+    $uploadPath = $uploadDir . $newFileName;
 
-
-  if (move_uploaded_file($fileTmp, $uploadPath)) {
-    $data["user_photo"] = $uploadPath;
+    if (move_uploaded_file($fileTmp, $uploadPath)) {
+      $data["user_photo"] = $uploadPath;
+    } else {
+      die(json_encode(["error" => "Failed to upload profile picture"]));
+    }
   } else {
-    die(json_encode(["error" => "Failed to upload profile picture"]));
+    $data["user_photo"] = "../uploads/default.jpg";
   }
 
   $placeholders = implode(", ", array_fill(0, count($fields), "?"));

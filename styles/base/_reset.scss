@@ -13,13 +13,20 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  overflow: hidden;
   padding: 0;
-  margin: 0;
   background-color: $background;
-  margin: 5rem 30rem;
+  margin: 3rem 30rem;
   font-size: 14px;
+
+  @media screen and (max-width: 2000px) {
+    margin: 3rem 15rem !important;
+  }
+
+  @media screen and (max-width: 1600px) {
+    margin: 3rem 6rem !important;
+  }
 }
 
 button {
@@ -30,6 +37,7 @@ button {
   border-radius: 0.3rem;
   cursor: pointer;
   background: transparent;
+  transition: 250ms $ease-trans;
 
   &:hover {
     opacity: 0.85;

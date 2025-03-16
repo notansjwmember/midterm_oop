@@ -67,14 +67,14 @@ include_once './config/db.php';
         <form id="gen_info_form">
           <h3 class="sub-title">General information</h3>
           <div class="form-input">
-            <label for="name">Name</label>
+            <label for="name">Name *</label>
             <div class="flex">
               <input type="text" name="first_name" placeholder="First name">
               <input type="text" name="last_name" placeholder="Last name">
             </div>
           </div>
           <div class="form-input">
-            <label for="email">Email</label>
+            <label for="email">Email *</label>
             <input type="email" name="email" placeholder="Email address">
           </div>
           <div class="form-input">
@@ -82,11 +82,11 @@ include_once './config/db.php';
             <input type="tel" name="phone" placeholder="Phone number">
           </div>
           <div class="form-input">
-            <label for="birthdate">Birthdate</label>
+            <label for="birthdate">Birthdate *</label>
             <input type="date" name="birthdate">
           </div>
           <div class="form-input">
-            <label for="country">Gender</label>
+            <label for="country">Gender *</label>
             <select name="gender">
               <option value="">Select a gender</option>
               <option value="male">Male</option>
@@ -95,7 +95,7 @@ include_once './config/db.php';
             </select>
           </div>
           <div class="form-input">
-            <label for="country">Country</label>
+            <label for="country">Country *</label>
             <input type="text" name="country" placeholder="Country">
           </div>
           <div class="form-input">
@@ -125,11 +125,11 @@ include_once './config/db.php';
             <h3 class="sub-title">Personal information</h3>
           </div>
           <div class="form-input">
-            <label for="username">Username</label>
+            <label for="username">Username *</label>
             <input type="text" name="username" placeholder="Username">
           </div>
           <div class="form-input">
-            <label for="password">Password</label>
+            <label for="password">Password *</label>
             <div class="password-input">
               <input type="password" name="password" placeholder="Password">
               <button type="button" class="password-input-eye">
@@ -188,8 +188,6 @@ include_once './config/db.php';
   const userPhotoText = document.querySelector("#user-photo-text")
   const userPhotoContainer = document.querySelector(".user-photo-container");
   const uploadButton = document.querySelector(".upload-button");
-
-  document.addEventListener("DOMContentLoaded", fetchUsers());
 
   popup.addEventListener("click", (e) => {
     if (e.target === popup) {
@@ -265,7 +263,12 @@ include_once './config/db.php';
     }, 0);
   }
 
+
   function closePopup() {
+    formContainer.querySelectorAll("input").forEach((e) => e.classList.remove("invalid-input"));
+    formContainer.querySelector("select").classList.remove("invalid-input");
+    nextForm.querySelector(".password-input").classList.remove("invalid-input");
+
     setTimeout(() => {
       popup.style.opacity = 0;
       popupContainer.style.transform = "scale(0.95)";
@@ -275,27 +278,49 @@ include_once './config/db.php';
 
     setTimeout(() => {
       popup.style.display = "none";
-    }, 300);
+    }, 200);
   }
 
   let step = 0;
   const nextForm = document.querySelector("#per_info_form");
   const prevForm = document.querySelector("#gen_info_form");
 
+  let formData = new FormData();
+  let prevFormData;
+
+  const req_fields = ["first_name", "last_name", "username", "password", "country", "gender", "birthdate", "email"];
+
   function handleStep(num) {
     const nextStep = document.querySelector("#next-step");
+    prevFormData = new FormData(prevForm);
 
-    // prevent from going out of bounds
+    let isValid = true;
+
     if (step + num > 1) return;
+
+    prevFormData.forEach((value, key) => {
+      if (req_fields.includes(key) && !value) {
+        isValid = false;
+        const input = prevForm.querySelector(`[name="${key}"]`);
+        if (input) input.classList.add("invalid-input");
+      }
+    })
+
+    if (!isValid) return;
+
     step += num;
 
     if (step === 1) {
+      formContainer.querySelectorAll("input").forEach((e) => e.classList.remove("invalid-input"));
+      formContainer.querySelector("select").classList.remove("invalid-input");
       formNextAnimation();
       nextForm.style.display = "flex";
       nextStep.textContent = "Create user";
+      nextStep.style.backgroundColor = "#274f7d";
       nextStep.onclick = () => handleFormData();
     } else if (step === 0) {
       formPrevAnimation();
+      nextStep.style.backgroundColor = "#9843dd";
       nextStep.textContent = "Next step";
       nextStep.onclick = () => handleStep(1);
       prevForm.style.display = "flex";
@@ -304,10 +329,21 @@ include_once './config/db.php';
 
 
   function handleFormData() {
-    const formData = new FormData();
-
-    const prevFormData = new FormData(prevForm);
     const nextFormData = new FormData(nextForm);
+    let isValid = true;
+
+    nextFormData.forEach((value, key) => {
+      if (req_fields.includes(key) && !value) {
+        isValid = false;
+        const input = nextForm.querySelector(`[name="${key}"]`);
+        const password = nextForm.querySelector(".password-input");
+        if (input) input.classList.add("invalid-input");
+        if (password) password.classList.add("invalid-input");
+
+      }
+    })
+
+    if (!isValid) return;
 
     prevFormData.forEach((value, key) => {
       formData.append(key, value);
@@ -327,9 +363,11 @@ include_once './config/db.php';
     });
 
     const data = await response.json();
-    console.log(data);
-  }
 
+    if (response.ok) {
+      alert("User created successfully");
+    }
+  }
 
   const prevFormInputs = prevForm.querySelectorAll(".form-input");
   const nextFormInputs = nextForm.querySelectorAll(".form-input");
@@ -358,10 +396,14 @@ include_once './config/db.php';
     prevForm.style.left = "0";
   }
 
-  async function fetchUsers() {
-    const tableContent = document.querySelector(".table-content");
+  const usersPerPage = 15;
+  let currentPage = 1;
+  const tableContent = document.querySelector(".table-content");
 
-    const response = await fetch("/api/users.php");
+  async function fetchUsers(page = 1) {
+    const paginationContainer = document.querySelector(".pagination");
+
+    const response = await fetch(`/api/users.php?page=${page}&limit=${usersPerPage}`);
     const data = await response.json();
 
     tableContent.innerHTML = '';
@@ -376,8 +418,7 @@ include_once './config/db.php';
       return;
     }
 
-
-    data.forEach((user, index) => {
+    data.users.forEach((user, index) => {
       const createdAt = new Date(user.created_at);
       const formattedDate = createdAt.toLocaleDateString("en-US", {
         year: "numeric",
@@ -403,7 +444,7 @@ include_once './config/db.php';
         <p>${user.country.toUpperCase()}</p>
         <p>${formattedDate}</p>
         <button type="button" class="action-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
             <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
@@ -411,16 +452,48 @@ include_once './config/db.php';
           </svg>
         </button>
       `;
-      tableContent.prepend(tableData);
 
-      if (index == data.length - 1) {
-        const endMessage = document.createElement("p");
-        endMessage.classList.add("end-message");
-        endMessage.textContent = "No more users found";
-        tableContent.append(endMessage);
+      if (index === usersPerPage - 1 || index === data.users.length - 1) {
+        tableData.style.borderBottom = "none";
       }
+
+      tableContent.append(tableData);
     })
 
-    console.log(data);
+    if (currentPage == 2) {
+      const endMessage = document.createElement("p");
+      endMessage.classList.add("end-message");
+      endMessage.textContent = "No more users found";
+      tableContent.append(endMessage);
+    }
+
+    const pagination = document.createElement("div");
+    pagination.classList.add("pagination");
+    tableContent.append(pagination);
+
+    updatePagination(data.totalPages)
   }
+
+  function updatePagination(totalPages) {
+    const paginationContainer = tableContent.querySelector(".pagination");
+
+    if (paginationContainer) {
+      paginationContainer.innerHTML = `
+        <button ${currentPage === 1 ? "disabled" : ""} onclick="changePage(-1)" class="icon-label">
+        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+        </button>
+        <p>${currentPage} of ${totalPages}</p>
+        <button ${currentPage === totalPages ? "disabled" : ""} onclick="changePage(1)" class="icon-label">
+        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+            </button>
+      `;
+    }
+  }
+
+  function changePage(direction) {
+    currentPage += direction;
+    fetchUsers(currentPage);
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchUsers());
 </script>

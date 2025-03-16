@@ -46,13 +46,22 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  overflow: hidden;
   padding: 0;
-  margin: 0;
   background-color: #0e0e0e;
-  margin: 5rem 30rem;
+  margin: 3rem 30rem;
   font-size: 14px;
+}
+@media screen and (max-width: 2000px) {
+  body {
+    margin: 3rem 15rem !important;
+  }
+}
+@media screen and (max-width: 1600px) {
+  body {
+    margin: 3rem 6rem !important;
+  }
 }
 
 button {
@@ -63,6 +72,7 @@ button {
   border-radius: 0.3rem;
   cursor: pointer;
   background: transparent;
+  transition: 250ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
 button:hover {
   opacity: 0.85;
@@ -98,6 +108,11 @@ form {
   display: grid;
   grid-template-columns: minmax(100px, 140px) 1fr;
   align-items: start;
+  transition: 250ms cubic-bezier(0.47, -0.01, 0.38, 1);
+}
+
+.invalid-input {
+  border-color: #bf3636 !important;
   transition: 250ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
 
@@ -225,7 +240,7 @@ form {
 .table-header,
 .table-data {
   display: grid;
-  grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr 40px;
+  grid-template-columns: 40px 1fr 130px 1fr 1fr 180px 40px;
 }
 
 .table-content {
@@ -252,7 +267,7 @@ form {
 .table-data {
   align-items: center;
   width: 100%;
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border-bottom: 1px solid #363636;
 }
 .table-data .action-button {
@@ -267,6 +282,7 @@ form {
 .table-data .user-column-container .user-info {
   display: flex;
   flex-direction: column;
+  gap: 0.2rem;
 }
 .table-data .user-column-container .user-photo-container {
   display: block;
@@ -290,6 +306,13 @@ form {
 }
 
 .end-message {
+  padding: 1rem 0;
+}
+
+.pagination {
+  display: flex;
+  place-items: center;
+  gap: 1rem;
   padding: 1rem 0;
 }
 
