@@ -4,3 +4,10 @@
   display: flex;
   gap: 0.5rem;
 }
+
+@mixin user-photo-container($size) {
+  display: block;
+  height: $size;
+  width: $size;
+  border-radius: 50%;
+}

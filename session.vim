@@ -13,9 +13,12 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +147 styles/global.css
-badd +3 ~/code/activity-php/midterm_oop/index.php
-badd +75 health://
+badd +399 ~/code/activity-php/midterm_oop/index.php
+badd +4 styles/components/_table.scss
+badd +26 styles/base/_reset.scss
+badd +6 styles/base/_variables.scss
+badd +4 styles/base/_mixins.scss
+badd +26 styles/components/_form.scss
 argglobal
 %argdel
 edit ~/code/activity-php/midterm_oop/index.php
@@ -25,6 +28,10 @@ set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -36,7 +43,10 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 exe 'vert 1resize ' . ((&columns * 141 + 141) / 283)
+exe '2resize ' . ((&lines * 32 + 39) / 79)
 exe 'vert 2resize ' . ((&columns * 141 + 141) / 283)
+exe '3resize ' . ((&lines * 44 + 39) / 79)
+exe 'vert 3resize ' . ((&columns * 141 + 141) / 283)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -51,72 +61,104 @@ silent! normal! zE
 19,22fold
 18,24fold
 16,25fold
-29,34fold
-37,38fold
-36,39fold
-28,40fold
-47,52fold
-46,53fold
-55,57fold
-45,58fold
-65,67fold
-63,68fold
-70,72fold
-74,76fold
-78,80fold
-82,84fold
-86,88fold
-90,92fold
-61,93fold
-96,99fold
+29,35fold
+38,39fold
+37,40fold
+28,41fold
+49,54fold
+48,55fold
+57,59fold
+47,60fold
+71,73fold
+69,74fold
+76,78fold
+80,82fold
+84,86fold
+90,94fold
+88,95fold
+97,99fold
 101,103fold
 105,107fold
 109,111fold
+67,112fold
 118,122fold
 117,123fold
-125,126fold
-115,127fold
-113,128fold
-95,129fold
-132,133fold
-135,136fold
-131,137fold
-44,138fold
-43,139fold
-15,140fold
-157,158fold
-156,159fold
-162,163fold
-172,175fold
-166,176fold
-183,185fold
-179,186fold
-190,193fold
-196,197fold
-189,198fold
-213,214fold
-224,228fold
-217,229fold
-230,234fold
-235,237fold
-203,238fold
-248,253fold
-242,255fold
-145,256fold
+116,125fold
+127,129fold
+136,139fold
+135,140fold
+133,141fold
+131,142fold
+144,146fold
+153,157fold
+152,158fold
+160,161fold
+150,162fold
+148,163fold
+115,164fold
+65,165fold
+169,170fold
+172,173fold
+168,174fold
+45,175fold
+44,177fold
+15,178fold
+195,196fold
+194,197fold
+200,201fold
+210,213fold
+204,214fold
+224,227fold
+222,228fold
+229,231fold
+235,239fold
+219,240fold
+241,242fold
+254,256fold
+259,264fold
+250,265fold
+269,272fold
+276,277fold
+268,278fold
+292,296fold
+297,301fold
+285,302fold
+312,313fold
+316,317fold
+306,320fold
+324,326fold
+323,330fold
+338,342fold
+337,346fold
+350,354fold
+349,358fold
+369,374fold
+375,376fold
+382,385fold
+393,394fold
+396,398fold
+392,399fold
+406,410fold
+405,411fold
+390,412fold
+416,420fold
+380,421fold
+361,424fold
+183,425fold
 let &fdl = &fdl
-let s:l = 3 - ((2 * winheight(0) + 38) / 76)
+let s:l = 399 - ((34 * winheight(0) + 38) / 76)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 0
+keepjumps 399
+normal! 016|
 wincmd w
 argglobal
-if bufexists(fnamemodify("styles/global.css", ":p")) | buffer styles/global.css | else | edit styles/global.css | endif
+if bufexists(fnamemodify("styles/components/_table.scss", ":p")) | buffer styles/components/_table.scss | else | edit styles/components/_table.scss | endif
 if &buftype ==# 'terminal'
-  silent file styles/global.css
+  silent file styles/components/_table.scss
 endif
-balt ~/code/activity-php/midterm_oop/index.php
+balt styles/components/_form.scss
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -126,52 +168,57 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-2,5fold
-8,11fold
-14,17fold
-20,22fold
-25,27fold
-30,35fold
-38,47fold
-50,56fold
-58,59fold
-65,72fold
-75,77fold
-80,83fold
-86,89fold
-92,93fold
-96,105fold
-107,109fold
-111,114fold
-116,117fold
-120,125fold
-128,142fold
-145,155fold
-158,161fold
-165,167fold
-170,178fold
-181,185fold
-189,191fold
-194,199fold
-202,203fold
-206,207fold
-210,212fold
-215,218fold
-221,224fold
-227,231fold
-233,234fold
-237,240fold
-243,246fold
+10,13fold
+4,14fold
+18,20fold
+23,30fold
+33,41fold
+50,52fold
+60,62fold
+65,66fold
+55,67fold
+44,68fold
+72,75fold
+78,82fold
+85,86fold
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 38) / 76)
+let s:l = 5 - ((1 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 015|
+keepjumps 5
+normal! 0
+wincmd w
+argglobal
+if bufexists(fnamemodify("styles/base/_mixins.scss", ":p")) | buffer styles/base/_mixins.scss | else | edit styles/base/_mixins.scss | endif
+if &buftype ==# 'terminal'
+  silent file styles/base/_mixins.scss
+endif
+balt styles/base/_variables.scss
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=99
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+3,5fold
+8,12fold
+let &fdl = &fdl
+let s:l = 13 - ((12 * winheight(0) + 21) / 43)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 13
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 141 + 141) / 283)
+exe '2resize ' . ((&lines * 32 + 39) / 79)
 exe 'vert 2resize ' . ((&columns * 141 + 141) / 283)
+exe '3resize ' . ((&lines * 44 + 39) / 79)
+exe 'vert 3resize ' . ((&columns * 141 + 141) / 283)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
