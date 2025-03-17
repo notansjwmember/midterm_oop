@@ -51,6 +51,10 @@
   .action-button {
     padding: 0;
     justify-self: end;
+
+    svg {
+      pointer-events: none;
+    }
   }
 
   .user-column-container {

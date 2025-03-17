@@ -177,6 +177,30 @@ include_once './config/db.php';
     </div>
   </div>
 
+  <div class="popup-action-container">
+    <div class="flex popup-action-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-edit">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" />
+      </svg>
+      <p>Edit</p>
+    </div>
+    <div class="line" style="opacity: 0.5;"></div>
+    <div class="flex popup-action-button delete-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M4 7l16 0" />
+        <path d="M10 11l0 6" />
+        <path d="M14 11l0 6" />
+        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+      </svg>
+      <p>Delete</p>
+    </div>
+  </div>
+
   <script src="scripts/modules/popup.js"></script>
   <script src="scripts/modules/form.js"></script>
   <script src="scripts/modules/api.js"></script>

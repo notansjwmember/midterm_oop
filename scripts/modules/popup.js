@@ -13,6 +13,14 @@ popup.addEventListener("click", (e) => {
   }
 });
 
+const popupActionContainer = document.querySelector(".popup-action-container");
+
+document.addEventListener("click", (e) => {
+  if (e.target !== popupActionContainer) {
+    closeActionPopup();
+  }
+});
+
 function openPopup() {
   popup.style.display = "flex";
   popup.style.visibility = "visible";
@@ -48,4 +56,32 @@ function closePopup() {
   setTimeout(() => {
     popup.style.display = "none";
   }, 200);
+}
+
+function openActionPopup(event, user_id) {
+  event.stopPropagation();
+
+  const elementTarget = event.target;
+  let popupTopPos = elementTarget.getBoundingClientRect().top;
+  let popupRightPos = elementTarget.getBoundingClientRect().left;
+
+  popupActionContainer.style.display = "grid";
+  popupActionContainer.style.top = popupTopPos - 5 + "px";
+  popupActionContainer.style.left = popupRightPos + "px";
+
+  setTimeout(() => {
+    popupActionContainer.style.visibility = "visible";
+    popupActionContainer.style.transform = "scale(1)";
+    popupActionContainer.style.opacity = 1;
+  }, 100);
+}
+
+function closeActionPopup() {
+  popupActionContainer.style.visibility = "hidden";
+  popupActionContainer.style.transform = "scale(0.95)";
+  popupActionContainer.style.opacity = 0;
+
+  setTimeout(() => {
+    popupActionContainer.style.display = "none";
+  }, 300);
 }

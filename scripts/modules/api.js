@@ -52,7 +52,7 @@ async function fetchUsers(page = 1) {
         <p>${user.email}</p>
         <p>${user.country.toUpperCase()}</p>
         <p>${formattedDate}</p>
-        <button type="button" class="action-button">
+        <button type="button" class="action-button" onclick="openActionPopup(event, ${user.user_id})">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
@@ -69,7 +69,7 @@ async function fetchUsers(page = 1) {
     tableContent.append(tableData);
   });
 
-  if (currentPage == 2) {
+  if (currentPage == data.totalPages) {
     const endMessage = document.createElement("p");
     endMessage.classList.add("end-message");
     endMessage.textContent = "No more users found";

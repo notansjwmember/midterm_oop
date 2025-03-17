@@ -29,3 +29,36 @@
   transition: 200ms $ease-trans;
   transform: scale(0.95);
 }
+
+.popup-action-container {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  display: grid;
+  transform: scale(0.95);
+  border: 1px solid $border-line-clr;
+  width: fit-content;
+  padding: 5px;
+  gap: 5px;
+  background-color: $background;
+  border-radius: 0.3rem;
+  top: 0;
+  right: 2rem;
+  transition: 300ms $ease-in-out-trans;
+
+  .popup-action-button {
+    cursor: pointer;
+    align-items: center;
+    padding: 0.5rem 0.7rem;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background-color: $table-header-bg;
+    }
+  }
+
+  .delete-button p,
+  .delete-button svg path {
+    color: $error-color;
+  }
+}
