@@ -50,12 +50,12 @@ body {
   overflow: hidden;
   padding: 0;
   background-color: #0e0e0e;
-  margin: 3rem 30rem;
+  margin: 3rem 25rem;
   font-size: 14px;
 }
 @media screen and (max-width: 2000px) {
   body {
-    margin: 3rem 15rem !important;
+    margin: 3rem 10rem !important;
   }
 }
 @media screen and (max-width: 1600px) {
@@ -229,7 +229,7 @@ form {
   position: relative;
   border-radius: 0.3rem;
   padding: 1px;
-  background: linear-gradient(-180deg, #363636 0%, #0e0e0e 70%);
+  background: linear-gradient(-180deg, #363636 0%, #0e0e0e 90%);
 }
 .table-container::before {
   position: absolute;
@@ -240,7 +240,8 @@ form {
 .table-header,
 .table-data {
   display: grid;
-  grid-template-columns: 40px 1fr 130px 1fr 1fr 180px 40px;
+  grid-template-columns: 40px 1fr 100px 1fr 1fr 130px 40px;
+  gap: 1rem;
 }
 
 .table-content {
@@ -283,6 +284,9 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+.table-data .user-column-container .user-info h3 {
+  text-wrap: balance;
 }
 .table-data .user-column-container .user-photo-container {
   display: block;
