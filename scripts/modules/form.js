@@ -14,11 +14,6 @@ const editUserPhotoWrapper = editFormContainer.querySelector(
   ".user-photo-wrapper",
 );
 
-// const userPhotoInput = document.querySelector("input[name='user_photo']");
-// const userPhotoText = document.querySelector("#user-photo-text");
-// const userPhotoContainer = document.querySelector(".user-photo-container");
-// const uploadButton = document.querySelector(".upload-button");
-
 const nextStep = document.querySelector("#next-step");
 
 const formOptionsContainer = document.querySelector(".form-options");
@@ -29,7 +24,28 @@ const formOptions = document.querySelectorAll(
 const wrappers = [userPhotoWrapper, editUserPhotoWrapper];
 
 wrappers.forEach((wrap) => {
-  wrap.addEventListener("click", () => { });
+  wrap.addEventListener("click", () => {
+    wrap.querySelector("input[name='user_photo']").click();
+  });
+
+  wrap
+    .querySelector("input[name='user_photo']")
+    .addEventListener("change", (e) => {
+      const file = e.target.files[0];
+
+      wrap.querySelector(".upload-button").style.display = "none";
+      wrap.querySelector("#user-photo-text").textContent = wrap.querySelector(
+        "input[name='user_photo']",
+      ).files[0].name;
+
+      if (file) {
+        const blobUrl = URL.createObjectURL(file);
+        const userPhotoContainer = wrap.querySelector(".user-photo-container");
+
+        userPhotoContainer.src = blobUrl;
+        userPhotoContainer.style.display = "block";
+      }
+    });
 });
 
 let step = 0;
@@ -166,44 +182,6 @@ function formPrevAnimation() {
   prevForm.style.left = "0";
 }
 
-userPhotoWrapper.addEventListener("click", () => {
-  userPhotoInput.click();
-});
-
-userPhotoInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-
-  uploadButton.style.display = "none";
-  userPhotoText.textContent = userPhotoInput.files[0].name;
-
-  if (file) {
-    const blobUrl = URL.createObjectURL(file);
-    userPhotoContainer.src = blobUrl;
-    userPhotoContainer.style.display = "block";
-  }
-});
-
-editFormContainer
-  .querySelector(".user-photo-wrapper")
-  .addEventListener("click", () => {
-    editFormContainer.querySelector("#edit-user-photo").click();
-  });
-
-editFormContainer
-  .querySelector("#edit-user-photo")
-  .addEventListener("change", (event) => {
-    const file = event.target.files[0];
-
-    uploadButton.style.display = "none";
-    userPhotoText.textContent = userPhotoInput.files[0].name;
-
-    if (file) {
-      const blobUrl = URL.createObjectURL(file);
-      userPhotoContainer.src = blobUrl;
-      userPhotoContainer.style.display = "block";
-    }
-  });
-
 const nextStepEdit = popupEditContainer.querySelector("#next-step-edit");
 const nextEditForm = editFormContainer.querySelector("#per_info_form");
 const prevEditForm = editFormContainer.querySelector("#gen_info_form");
@@ -229,43 +207,25 @@ function deleteUser(user_id) {
 }
 
 function handleEditFormStep(formOption) {
-  if (editFormStep !== 0 && formOption == 0) {
+  if (editFormStep == 2) {
     nextStepEdit.style.backgroundColor = "#274f7d";
     nextStepEdit.textContent = "Save changes";
     nextStepEdit.onclick = () => handleFormData();
   }
 
-  if (editFormStep == 0 && formOption == 0) {
-    setTimeout(() => {
-      formOptionsContainer.style.position = "absolute";
-      formOptionsContainer.style.opacity = 1;
-      formOptionsContainer.style.left = 0;
-    }, 200);
-
-    editFormContainer.style.minHeight =
-      formOptionsContainer.getBoundingClientRect().height + "px";
-
-    setTimeout(() => {
-      prevEditForm.style.left = "100%";
-      prevEditForm.style.opacity = 0;
-      nextEditForm.style.left = "100%";
-      nextEditForm.style.opacity = 0;
-    }, 200);
-
-    nextStepEdit.style.backgroundColor = "#9843dd";
-    nextStepEdit.textContent = "Next step";
-    editFormStep = 1;
-  } else if (editFormStep == 1 && formOption == 1) {
+  if (editFormStep == 1) {
+    changeEditFormStep(1);
+  } else if (editFormStep == 2 && formOption == 1) {
     formOptionsContainer.style.left = "-100%";
     formOptionsContainer.style.position = "absolute";
     formOptionsContainer.style.opacity = 0;
 
-    editFormContainer.style.minHeight = prevEditFormHeight + 25 + "px";
+    editFormContainer.style.minHeight = prevEditFormHeight + 20 + "px";
     prevEditForm.style.opacity = 1;
     prevEditForm.style.left = "0";
-  } else if (editFormStep == 1 && formOption == 2) {
+  } else if (editFormStep == 2 && formOption == 2) {
     setTimeout(() => {
-      editFormContainer.style.minHeight = nextEditFormHeight + 25 + "px";
+      editFormContainer.style.minHeight = nextEditFormHeight + 20 + "px";
       formOptionsContainer.style.left = "-100%";
       prevEditForm.style.position = "absolute";
       prevEditForm.style.opacity = 0;

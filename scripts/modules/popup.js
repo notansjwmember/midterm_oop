@@ -12,28 +12,18 @@ const editFormContainer = document.querySelector(".edit-form-container");
 const nextForm = document.querySelector("#per_info_form");
 const prevForm = document.querySelector("#gen_info_form");
 
-const popups = [
+let popups = [
   {
     wrapper: popup,
     container: popupContainer,
     formContainer: formContainer,
-    formInitialized: false,
   },
   {
     wrapper: popupEdit,
     container: popupEditContainer,
     formContainer: editFormContainer,
-    formInitialized: false,
   },
 ];
-
-popups.forEach((popup) => {
-  popup.wrapper.addEventListener("click", (e) => {
-    if (!popup.container.contains(e.target)) {
-      closePopup(popup.wrapper, popup.container, popup.formContainer);
-    }
-  });
-});
 
 document.addEventListener("click", (e) => {
   if (e.target !== popupActionContainer) {
@@ -41,51 +31,58 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function openPopup(formInitialized, popup, popupContainer) {
-  popup.style.display = "flex";
-  popup.style.visibility = "visible";
-
-  if (!formInitialized) {
-    formContainer.style.minHeight =
-      prevForm.getBoundingClientRect().height + 20 + "px";
-    editFormContainer.style.minHeight =
-      formOptionsContainer.getBoundingClientRect().height + "px";
-    formInitialized = true;
-  }
+function openPopup(popup) {
+  popup.wrapper.style.display = "flex";
+  popup.wrapper.style.visibility = "visible";
+  popup.wrapper.style.opacity = 1;
+  popup.container.style.transform = "scale(1)";
 
   setTimeout(() => {
-    popup.style.opacity = 1;
-    popupContainer.style.transform = "scale(1)";
+    popup.formContainer.style.minHeight =
+      prevForm.getBoundingClientRect().height + "px";
+    editFormContainer.style.minHeight =
+      formOptionsContainer.getBoundingClientRect().height + "px";
 
     nextFormHeight = nextForm.getBoundingClientRect().height;
     prevFormHeight = prevForm.getBoundingClientRect().height;
   }, 0);
+
+  nextStepEdit.style.backgroundColor = "#9843dd";
+  nextStepEdit.textContent = "Next step";
+  editFormStep = 1;
 }
 
-function closePopup(popup, popupContainer, formContainer) {
+function closePopup(popup) {
   resetInvalidInput(formContainer);
+  formOptionsContainer.style.opacity = 1;
+  formOptionsContainer.style.left = 0;
+
+  popup.wrapper.style.opacity = 0;
+  popup.container.style.transform = "scale(0.95)";
+  popup.wrapper.style.visibility = "hidden";
 
   setTimeout(() => {
-    popup.style.opacity = 0;
-    popupContainer.style.transform = "scale(0.95)";
-    popup.style.visibility = "hidden";
-  }, 0);
+    formOptionsContainer.style.position = "flex";
 
-  setTimeout(() => {
-    popup.style.display = "none";
+    prevEditForm.style.left = "100%";
+    prevEditForm.style.opacity = 0;
+    nextEditForm.style.left = "100%";
+    nextEditForm.style.opacity = 0;
+
+    popup.wrapper.style.display = "none";
   }, 200);
 }
 
 function openEditPopup() {
-  openPopup(popups[1].formInitialized, popupEdit, popupEditContainer);
+  openPopup(popups[1]);
 }
 
 function closeEditPopup() {
-  closePopup(popupEdit, popupEditContainer, editFormContainer);
+  closePopup(popups[1]);
 }
 
-function openDeletePopup() { }
-function closeDeletePopup() { }
+// function openDeletePopup() { }
+// function closeDeletePopup() { }
 
 function openActionPopup(event, user_id) {
   event.stopPropagation();

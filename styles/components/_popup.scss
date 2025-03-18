@@ -36,9 +36,9 @@
 
 .popup-action-container {
     opacity: 0;
+    display: none;
     visibility: hidden;
     position: fixed;
-    display: grid;
     transform: scale(0.95);
     border: 1px solid $border-line-clr;
     width: fit-content;
