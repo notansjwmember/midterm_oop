@@ -6,6 +6,12 @@ async function createUser(formData) {
 
   if (response.ok) {
     alert("User created successfully");
+
+    prevForm.reset();
+    nextForm.reset();
+    closePopup(popup, popupContainer, formContainer);
+
+    fetchUsers();
   }
 }
 

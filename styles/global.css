@@ -153,6 +153,60 @@ form {
   gap: 0.4rem;
 }
 
+.edit-form-container {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  transition: 500ms cubic-bezier(0.74, 0, 0.33, 1);
+}
+.edit-form-container .form-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+.edit-form-container .form-options .edit-form-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 1rem;
+  border: 1px solid #363636;
+  width: inherit;
+  border-radius: 0.3rem;
+  transition: 150ms cubic-bezier(0.47, -0.01, 0.38, 1);
+  cursor: pointer;
+  user-select: none;
+}
+.edit-form-container .form-options .edit-form-option h3 {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.edit-form-container .form-options .edit-form-option p {
+  opacity: 0.7;
+}
+.edit-form-container .form-options .edit-form-option:hover {
+  background-color: #1c1d1d;
+}
+.edit-form-container .form-options .active {
+  background-color: #1c1d1d;
+}
+.edit-form-container form {
+  width: 100%;
+  left: 0;
+  transition: 550ms cubic-bezier(0.47, -0.01, 0.38, 1);
+}
+.edit-form-container #gen_info_form,
+.edit-form-container #per_info_form {
+  position: absolute;
+  opacity: 0;
+  left: 100%;
+}
+.edit-form-container #gen_info_form .icon-label,
+.edit-form-container #per_info_form .icon-label {
+  gap: 0.4rem;
+}
+
 .user-photo-wrapper {
   cursor: pointer;
   display: flex;
@@ -186,7 +240,9 @@ form {
 
 /* colors */
 /* transitions */
-.popup-wrapper {
+.popup-wrapper,
+.popup-edit-wrapper,
+.popup-delete-wrapper {
   position: fixed;
   display: none;
   visibility: hidden;
@@ -203,7 +259,14 @@ form {
   transition: 200ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
 
-.popup-container {
+/* .popup-edit-wrapper {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+} */
+.popup-container,
+.popup-edit-container,
+.popup-delete-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -394,7 +457,7 @@ form {
 /* colors */
 /* transitions */
 .line {
-  height: 1px;
+  height: 1.5px;
   width: 100%;
   background-color: #363636;
 }

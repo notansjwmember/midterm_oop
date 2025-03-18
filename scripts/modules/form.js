@@ -3,6 +3,7 @@ const userPhotoInput = document.querySelector("input[name='user_photo']");
 const userPhotoText = document.querySelector("#user-photo-text");
 const userPhotoContainer = document.querySelector(".user-photo-container");
 const uploadButton = document.querySelector(".upload-button");
+const nextStep = document.querySelector("#next-step");
 
 const req_fields = [
   "first_name",
@@ -15,13 +16,56 @@ const req_fields = [
   "email",
 ];
 
+let step = 0;
+
 let formData = new FormData();
 let prevFormData;
 
 let isPasswordVisible = false;
 
+const formOptions = document.querySelectorAll(
+  ".form-options .edit-form-option",
+);
+let formOption = null;
+
+formOptions.forEach((opt) => {
+  opt.addEventListener("click", (e) => {
+    formOptions.forEach((option) => option.classList.remove("active"));
+
+    formOption = e.currentTarget;
+    formOption.classList.add("active");
+
+    const formStep = formOption.dataset.form;
+  });
+});
+
+document.querySelector(".password-input-eye").addEventListener("click", () => {
+  isPasswordVisible = !isPasswordVisible;
+
+  if (!isPasswordVisible) {
+    document.querySelector(".password-input-eye").innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+  </svg>
+`;
+    document.querySelector(".password-input input").type = "password";
+    return;
+  }
+
+  document.querySelector(".password-input-eye").innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye-off">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+  <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
+  <path d="M3 3l18 18" />
+</svg>
+`;
+  document.querySelector(".password-input input").type = "text";
+});
+
 function handleStep(num) {
-  const nextStep = document.querySelector("#next-step");
   prevFormData = new FormData(prevForm);
 
   let isValid = true;
@@ -127,28 +171,16 @@ userPhotoInput.addEventListener("change", (event) => {
   }
 });
 
-document.querySelector(".password-input-eye").addEventListener("click", () => {
-  isPasswordVisible = !isPasswordVisible;
+function editUser(user_id) {
+  openEditPopup();
 
-  if (!isPasswordVisible) {
-    document.querySelector(".password-input-eye").innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-  </svg>
-`;
-    document.querySelector(".password-input input").type = "password";
-    return;
-  }
+  nextStep.onclick = () => handleEditFormStep(formOption);
+}
 
-  document.querySelector(".password-input-eye").innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye-off">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
-  <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
-  <path d="M3 3l18 18" />
-</svg>
-`;
-  document.querySelector(".password-input input").type = "text";
-});
+function deleteUser(user_id) {
+  openDeletePopup();
+}
+
+function handleEditFormStep(formOption) {
+  console.log(formOption);
+}

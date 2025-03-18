@@ -6,12 +6,7 @@ let nextFormHeight;
 let prevFormHeight;
 
 // controls for pagination
-let usersPerPage = 12;
-
-if (window.matchMedia("(max-width: 1800)")) {
-  usersPerPage = 8;
-}
-
+let usersPerPage = 15;
 let currentPage = 1;
 
 // fill in table

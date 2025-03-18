@@ -1,19 +1,39 @@
 const popup = document.querySelector(".popup-wrapper");
 const popupContainer = document.querySelector(".popup-container");
+
+const popupEdit = document.querySelector(".popup-edit-wrapper");
+const popupEditContainer = document.querySelector(".popup-edit-container");
+
+const popupActionContainer = document.querySelector(".popup-action-container");
+
 const formContainer = document.querySelector(".form-container");
+const editFormContainer = document.querySelector(".edit-form-container");
+
 const nextForm = document.querySelector("#per_info_form");
 const prevForm = document.querySelector("#gen_info_form");
 
 let formInitialized = false;
-let step = 0;
 
-popup.addEventListener("click", (e) => {
-  if (e.target === popup) {
-    closePopup();
-  }
+const popups = [
+  {
+    wrapper: popup,
+    container: popupContainer,
+    formContainer: formContainer,
+  },
+  {
+    wrapper: popupEdit,
+    container: popupEditContainer,
+    formContainer: editFormContainer,
+  },
+];
+
+popups.forEach((popup) => {
+  popup.wrapper.addEventListener("click", (e) => {
+    if (!popup.container.contains(e.target)) {
+      closePopup(popup.wrapper, popup.container, popup.formContainer);
+    }
+  });
 });
-
-const popupActionContainer = document.querySelector(".popup-action-container");
 
 document.addEventListener("click", (e) => {
   if (e.target !== popupActionContainer) {
@@ -21,7 +41,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function openPopup() {
+function openPopup(popup, popupContainer) {
   popup.style.display = "flex";
   popup.style.visibility = "visible";
 
@@ -40,12 +60,8 @@ function openPopup() {
   }, 0);
 }
 
-function closePopup() {
-  formContainer
-    .querySelectorAll("input")
-    .forEach((e) => e.classList.remove("invalid-input"));
-  formContainer.querySelector("select").classList.remove("invalid-input");
-  nextForm.querySelector(".password-input").classList.remove("invalid-input");
+function closePopup(popup, popupContainer, formContainer) {
+  resetInvalidInput(formContainer);
 
   setTimeout(() => {
     popup.style.opacity = 0;
@@ -58,10 +74,24 @@ function closePopup() {
   }, 200);
 }
 
+function openEditPopup() {
+  openPopup(popupEdit, popupEditContainer);
+}
+
+function closeEditPopup() {
+  closePopup(popupEdit, popupEditContainer, editFormContainer);
+}
+
+function openDeletePopup() {}
+function closeDeletePopup() {}
+
 function openActionPopup(event, user_id) {
   event.stopPropagation();
 
-  const elementTarget = event.target;
+  document.querySelector(".edit-button").onclick = () => editUser(user_id);
+  document.querySelector(".delete-button").onclick = () => deleteUser(user_id);
+
+  const elementTarget = event.currentTarget;
   let popupTopPos = elementTarget.getBoundingClientRect().top;
   let popupRightPos = elementTarget.getBoundingClientRect().left;
 
@@ -84,4 +114,12 @@ function closeActionPopup() {
   setTimeout(() => {
     popupActionContainer.style.display = "none";
   }, 300);
+}
+
+function resetInvalidInput(formContainer) {
+  formContainer
+    .querySelectorAll("input")
+    .forEach((e) => e.classList.remove("invalid-input"));
+  formContainer.querySelector("select").classList.remove("invalid-input");
+  nextForm.querySelector(".password-input").classList.remove("invalid-input");
 }

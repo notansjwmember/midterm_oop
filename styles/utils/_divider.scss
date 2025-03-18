@@ -1,13 +1,13 @@
 @import "../base/variables";
 
 .line {
-  height: 1px;
-  width: 100%;
-  background-color: $border-line-clr;
+    height: 1.5px;
+    width: 100%;
+    background-color: $border-line-clr;
 }
 
 .vertical-line {
-  height: 25px;
-  width: 1px;
-  background-color: $border-line-clr;
+    height: 25px;
+    width: 1px;
+    background-color: $border-line-clr;
 }

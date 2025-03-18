@@ -3,7 +3,7 @@ let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/code/activity-php/midterm_oop
+cd ~/code/midterm_oop
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -17,14 +17,14 @@ badd +211 index.php
 badd +77 api/users.php
 badd +1 scripts/modules/table.js
 badd +84 scripts/modules/api.js
-badd +78 ~/code/activity-php/midterm_oop/scripts/modules/popup.js
 badd +1 styles/components/_popup.scss
-badd +13 styles/base/_variables.scss
+badd +7 styles/base/_variables.scss
 badd +1 styles/utils/_button.scss
-badd +55 styles/components/_table.scss
+badd +66 styles/components/_table.scss
+badd +8 scripts/modules/popup.js
 argglobal
 %argdel
-edit ~/code/activity-php/midterm_oop/scripts/modules/popup.js
+edit styles/components/_table.scss
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -45,13 +45,13 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe '2resize ' . ((&lines * 16 + 27) / 54)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
-exe '3resize ' . ((&lines * 35 + 27) / 54)
-exe 'vert 3resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 125 + 126) / 253)
+exe '2resize ' . ((&lines * 21 + 34) / 69)
+exe 'vert 2resize ' . ((&columns * 127 + 126) / 253)
+exe '3resize ' . ((&lines * 45 + 34) / 69)
+exe 'vert 3resize ' . ((&columns * 127 + 126) / 253)
 argglobal
-balt scripts/modules/api.js
+balt scripts/modules/popup.js
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -61,34 +61,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-11,12fold
-10,13fold
-10,14fold
-19,20fold
-18,21fold
-18,22fold
-28,31fold
-34,39fold
-34,40fold
-24,40fold
-50,53fold
-50,54fold
-56,57fold
-56,58fold
-43,58fold
-72,75fold
-72,76fold
-61,76fold
-84,85fold
-84,86fold
-79,86fold
 let &fdl = &fdl
-let s:l = 63 - ((26 * winheight(0) + 25) / 51)
+let s:l = 66 - ((65 * winheight(0) + 33) / 66)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 63
-normal! 0
+keepjumps 66
+normal! 04|
 wincmd w
 argglobal
 if bufexists(fnamemodify("styles/base/_variables.scss", ":p")) | buffer styles/base/_variables.scss | else | edit styles/base/_variables.scss | endif
@@ -106,12 +85,17 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 7 - ((6 * winheight(0) + 7) / 15)
+let s:l = 7 - ((6 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 7
-normal! 024|
+let s:c = 24 - ((6 * winwidth(0) + 63) / 127)
+if s:c > 0
+  exe 'normal! ' . s:c . '|zs' . 24 . '|'
+else
+  normal! 024|
+endif
 wincmd w
 argglobal
 if bufexists(fnamemodify("styles/components/_table.scss", ":p")) | buffer styles/components/_table.scss | else | edit styles/components/_table.scss | endif
@@ -136,7 +120,7 @@ silent! normal! zE
 55,56fold
 51,57fold
 70,71fold
-65,72fold
+68,72fold
 75,76fold
 60,77fold
 45,78fold
@@ -145,18 +129,18 @@ silent! normal! zE
 95,96fold
 99,103fold
 let &fdl = &fdl
-let s:l = 58 - ((21 * winheight(0) + 17) / 34)
+let s:l = 58 - ((27 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 58
 normal! 03|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe '2resize ' . ((&lines * 16 + 27) / 54)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
-exe '3resize ' . ((&lines * 35 + 27) / 54)
-exe 'vert 3resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 125 + 126) / 253)
+exe '2resize ' . ((&lines * 21 + 34) / 69)
+exe 'vert 2resize ' . ((&columns * 127 + 126) / 253)
+exe '3resize ' . ((&lines * 45 + 34) / 69)
+exe 'vert 3resize ' . ((&columns * 127 + 126) / 253)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
