@@ -61,10 +61,13 @@
     transition: 500ms $ease-in-out-trans;
 
     .form-options {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         width: 100%;
+        left: 0;
+        transition: 500ms $ease-trans;
 
         .edit-form-option {
             display: flex;

@@ -103,4 +103,64 @@ if ($method == "POST") {
     $stmt->close();
 }
 
+if ($method == "PUT") {
+    parse_str(file_get_contents("php://input"), $data);
+
+    if (isset($data["password"]) && !empty($data["password"])) {
+        $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
+    } else {
+        unset($data["password"]); // Prevent overriding with NULL
+    }
+
+    $uploadDir = "../uploads/";
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    if (
+        isset($_FILES["user_photo"]) &&
+        $_FILES["user_photo"]["error"] === UPLOAD_ERR_OK
+    ) {
+        $fileTmp = $_FILES["user_photo"]["tmp_name"];
+        $fileName = basename($_FILES["user_photo"]["name"]);
+        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        $newFileName = uniqid("profile_", true) . "." . $fileType;
+        $uploadPath = $uploadDir . $newFileName;
+
+        if (move_uploaded_file($fileTmp, $uploadPath)) {
+            $data["user_photo"] = $newFileName;
+        } else {
+            die(json_encode(["error" => "Failed to upload profile picture"]));
+        }
+    }
+
+    if (empty($data)) {
+        die(json_encode(["error" => "No fields provided for update"]));
+    }
+
+    $updates = [];
+    $values = [];
+
+    foreach ($data as $column => $value) {
+        $updates[] = "$column = ?";
+        $values[] = $value;
+    }
+
+    $query = "UPDATE users SET " . implode(", ", $updates) . " WHERE user_id = ?";
+    $values[] = $data["user_id"];
+
+    $stmt = $conn->prepare($query);
+    $types = str_repeat("s", count($values) - 1) . "i";
+    $stmt->bind_param($types, ...$values);
+
+    if ($stmt->execute()) {
+        echo json_encode(["success" => "User updated successfully"]);
+    } else {
+        echo json_encode(["error" => "Error while updating user"]);
+    }
+
+    $stmt->close();
+}
+
 mysqli_close($conn);

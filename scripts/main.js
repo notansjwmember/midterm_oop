@@ -6,7 +6,7 @@ let nextFormHeight;
 let prevFormHeight;
 
 // controls for pagination
-let usersPerPage = 15;
+let usersPerPage = 8;
 let currentPage = 1;
 
 // fill in table

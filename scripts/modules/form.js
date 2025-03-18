@@ -1,10 +1,3 @@
-const userPhotoWrapper = document.querySelector(".user-photo-wrapper");
-const userPhotoInput = document.querySelector("input[name='user_photo']");
-const userPhotoText = document.querySelector("#user-photo-text");
-const userPhotoContainer = document.querySelector(".user-photo-container");
-const uploadButton = document.querySelector(".upload-button");
-const nextStep = document.querySelector("#next-step");
-
 const req_fields = [
   "first_name",
   "last_name",
@@ -16,26 +9,42 @@ const req_fields = [
   "email",
 ];
 
-let step = 0;
+const userPhotoWrapper = document.querySelector(".user-photo-wrapper");
+const editUserPhotoWrapper = editFormContainer.querySelector(
+  ".user-photo-wrapper",
+);
 
-let formData = new FormData();
-let prevFormData;
+// const userPhotoInput = document.querySelector("input[name='user_photo']");
+// const userPhotoText = document.querySelector("#user-photo-text");
+// const userPhotoContainer = document.querySelector(".user-photo-container");
+// const uploadButton = document.querySelector(".upload-button");
 
-let isPasswordVisible = false;
+const nextStep = document.querySelector("#next-step");
 
+const formOptionsContainer = document.querySelector(".form-options");
 const formOptions = document.querySelectorAll(
   ".form-options .edit-form-option",
 );
+
+const wrappers = [userPhotoWrapper, editUserPhotoWrapper];
+
+wrappers.forEach((wrap) => {
+  wrap.addEventListener("click", () => { });
+});
+
+let step = 0;
+let formData = new FormData();
+let prevFormData;
+let isPasswordVisible = false;
 let formOption = null;
 
 formOptions.forEach((opt) => {
   opt.addEventListener("click", (e) => {
     formOptions.forEach((option) => option.classList.remove("active"));
 
-    formOption = e.currentTarget;
-    formOption.classList.add("active");
+    e.currentTarget.classList.add("active");
 
-    const formStep = formOption.dataset.form;
+    formOption = e.currentTarget.dataset.form;
   });
 });
 
@@ -89,17 +98,10 @@ function handleStep(num) {
       .querySelectorAll("input")
       .forEach((e) => e.classList.remove("invalid-input"));
     formContainer.querySelector("select").classList.remove("invalid-input");
+
     formNextAnimation();
-    nextForm.style.display = "flex";
-    nextStep.textContent = "Create user";
-    nextStep.style.backgroundColor = "#274f7d";
-    nextStep.onclick = () => handleFormData();
   } else if (step === 0) {
     formPrevAnimation();
-    nextStep.style.backgroundColor = "#9843dd";
-    nextStep.textContent = "Next step";
-    nextStep.onclick = () => handleStep(1);
-    prevForm.style.display = "flex";
   }
 }
 
@@ -131,6 +133,11 @@ function handleFormData() {
 }
 
 function formNextAnimation() {
+  nextForm.style.display = "flex";
+  nextStep.textContent = "Create user";
+  nextStep.style.backgroundColor = "#274f7d";
+  nextStep.onclick = () => handleFormData();
+
   setTimeout(() => {
     formContainer.style.minHeight = nextFormHeight + 25 + "px";
     prevForm.style.left = "-100%";
@@ -143,6 +150,11 @@ function formNextAnimation() {
 }
 
 function formPrevAnimation() {
+  nextStep.style.backgroundColor = "#9843dd";
+  nextStep.textContent = "Next step";
+  nextStep.onclick = () => handleStep(1);
+  prevForm.style.display = "flex";
+
   setTimeout(() => {
     formContainer.style.minHeight = prevFormHeight + 25 + "px";
     nextForm.style.left = "100%";
@@ -171,10 +183,45 @@ userPhotoInput.addEventListener("change", (event) => {
   }
 });
 
+editFormContainer
+  .querySelector(".user-photo-wrapper")
+  .addEventListener("click", () => {
+    editFormContainer.querySelector("#edit-user-photo").click();
+  });
+
+editFormContainer
+  .querySelector("#edit-user-photo")
+  .addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    uploadButton.style.display = "none";
+    userPhotoText.textContent = userPhotoInput.files[0].name;
+
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      userPhotoContainer.src = blobUrl;
+      userPhotoContainer.style.display = "block";
+    }
+  });
+
+const nextStepEdit = popupEditContainer.querySelector("#next-step-edit");
+const nextEditForm = editFormContainer.querySelector("#per_info_form");
+const prevEditForm = editFormContainer.querySelector("#gen_info_form");
+
+let nextEditFormHeight;
+let prevEditFormHeight;
+let editFormStep = 1;
+
 function editUser(user_id) {
   openEditPopup();
 
-  nextStep.onclick = () => handleEditFormStep(formOption);
+  setTimeout(() => {
+    nextEditFormHeight = nextEditForm.getBoundingClientRect().height;
+    prevEditFormHeight = prevEditForm.getBoundingClientRect().height;
+  }, 0);
+
+  formOption = null;
+  nextStepEdit.onclick = () => handleEditFormStep(formOption);
 }
 
 function deleteUser(user_id) {
@@ -182,5 +229,54 @@ function deleteUser(user_id) {
 }
 
 function handleEditFormStep(formOption) {
-  console.log(formOption);
+  if (editFormStep !== 0 && formOption == 0) {
+    nextStepEdit.style.backgroundColor = "#274f7d";
+    nextStepEdit.textContent = "Save changes";
+    nextStepEdit.onclick = () => handleFormData();
+  }
+
+  if (editFormStep == 0 && formOption == 0) {
+    setTimeout(() => {
+      formOptionsContainer.style.position = "absolute";
+      formOptionsContainer.style.opacity = 1;
+      formOptionsContainer.style.left = 0;
+    }, 200);
+
+    editFormContainer.style.minHeight =
+      formOptionsContainer.getBoundingClientRect().height + "px";
+
+    setTimeout(() => {
+      prevEditForm.style.left = "100%";
+      prevEditForm.style.opacity = 0;
+      nextEditForm.style.left = "100%";
+      nextEditForm.style.opacity = 0;
+    }, 200);
+
+    nextStepEdit.style.backgroundColor = "#9843dd";
+    nextStepEdit.textContent = "Next step";
+    editFormStep = 1;
+  } else if (editFormStep == 1 && formOption == 1) {
+    formOptionsContainer.style.left = "-100%";
+    formOptionsContainer.style.position = "absolute";
+    formOptionsContainer.style.opacity = 0;
+
+    editFormContainer.style.minHeight = prevEditFormHeight + 25 + "px";
+    prevEditForm.style.opacity = 1;
+    prevEditForm.style.left = "0";
+  } else if (editFormStep == 1 && formOption == 2) {
+    setTimeout(() => {
+      editFormContainer.style.minHeight = nextEditFormHeight + 25 + "px";
+      formOptionsContainer.style.left = "-100%";
+      prevEditForm.style.position = "absolute";
+      prevEditForm.style.opacity = 0;
+    }, 0);
+
+    nextEditForm.style.opacity = 1;
+    nextEditForm.style.left = "0";
+  }
+}
+
+function changeEditFormStep(step) {
+  editFormStep += step;
+  handleEditFormStep(editFormStep);
 }

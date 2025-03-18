@@ -160,10 +160,13 @@ form {
   transition: 500ms cubic-bezier(0.74, 0, 0.33, 1);
 }
 .edit-form-container .form-options {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+  left: 0;
+  transition: 500ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
 .edit-form-container .form-options .edit-form-option {
   display: flex;
@@ -259,11 +262,6 @@ form {
   transition: 200ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
 
-/* .popup-edit-wrapper {
-  opacity: 1;
-  visibility: visible;
-  display: flex;
-} */
 .popup-container,
 .popup-edit-container,
 .popup-delete-container {

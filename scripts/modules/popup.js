@@ -12,18 +12,18 @@ const editFormContainer = document.querySelector(".edit-form-container");
 const nextForm = document.querySelector("#per_info_form");
 const prevForm = document.querySelector("#gen_info_form");
 
-let formInitialized = false;
-
 const popups = [
   {
     wrapper: popup,
     container: popupContainer,
     formContainer: formContainer,
+    formInitialized: false,
   },
   {
     wrapper: popupEdit,
     container: popupEditContainer,
     formContainer: editFormContainer,
+    formInitialized: false,
   },
 ];
 
@@ -41,13 +41,15 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function openPopup(popup, popupContainer) {
+function openPopup(formInitialized, popup, popupContainer) {
   popup.style.display = "flex";
   popup.style.visibility = "visible";
 
   if (!formInitialized) {
     formContainer.style.minHeight =
       prevForm.getBoundingClientRect().height + 20 + "px";
+    editFormContainer.style.minHeight =
+      formOptionsContainer.getBoundingClientRect().height + "px";
     formInitialized = true;
   }
 
@@ -75,15 +77,15 @@ function closePopup(popup, popupContainer, formContainer) {
 }
 
 function openEditPopup() {
-  openPopup(popupEdit, popupEditContainer);
+  openPopup(popups[1].formInitialized, popupEdit, popupEditContainer);
 }
 
 function closeEditPopup() {
   closePopup(popupEdit, popupEditContainer, editFormContainer);
 }
 
-function openDeletePopup() {}
-function closeDeletePopup() {}
+function openDeletePopup() { }
+function closeDeletePopup() { }
 
 function openActionPopup(event, user_id) {
   event.stopPropagation();
