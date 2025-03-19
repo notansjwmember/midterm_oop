@@ -110,7 +110,7 @@
 
         <form id="per_info_form">
           <div class="icon-label">
-            <button type="button" class="back-button" onclick="handleStep(-1)">
+            <button type="button" class="back-button" onclick="handleStep(0, popups[0])">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l14 0" />
@@ -166,7 +166,7 @@
         <button type="button" class="secondary-button" onclick="closePopup(popups[0])">
           Cancel
         </button>
-        <button id="next-step" type="submit" class="primary-button" onclick="handleStep(1)">
+        <button id="next-step" type="submit" class="primary-button" onclick="handleStep(1, popups[0])">
           Next step
         </button>
       </div>
@@ -175,7 +175,7 @@
   </div>
 
   <div class="popup-action-container">
-    <div class="flex popup-action-button edit-button">
+    <div class="flex popup-action-button edit-button" onclick="openEditPopup()">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-edit">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
@@ -232,7 +232,7 @@
 
         <form id="gen_info_form">
           <div class="icon-label">
-            <button type="button" class="back-button" onclick="changeEditFormStep(1)">
+            <button type="button" class="back-button" onclick="handleEditFormStep(1, formOption)">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l14 0" />
@@ -290,7 +290,7 @@
 
         <form id="per_info_form">
           <div class="icon-label">
-            <button type="button" class="back-button" onclick="changeEditFormStep(1)">
+            <button type="button" class="back-button" onclick="handleEditFormStep(1, formOption)">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M5 12l14 0" />
@@ -343,10 +343,10 @@
       </div>
 
       <div class="flex button-container">
-        <button type="button" class="secondary-button" onclick="closeEditPopup(popups[1])">
+        <button type="button" class="secondary-button" onclick="closePopup(popups[1])">
           Cancel
         </button>
-        <button id="next-step-edit" type="submit" class="primary-button" onclick="handleEditFormStep(formOption)">
+        <button id="next-step-edit" type="submit" class="primary-button" onclick="handleEditFormStep(2, formOption)">
           Next step
         </button>
       </div>

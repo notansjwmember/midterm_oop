@@ -1,156 +1,152 @@
 @import "../base/variables";
 
 .form-input {
-    display: grid;
-    grid-template-columns: minmax(100px, 140px) 1fr;
-    align-items: start;
-    transition: 250ms $ease-trans;
+  display: grid;
+  grid-template-columns: minmax(100px, 140px) 1fr;
+  align-items: start;
+  transition: 250ms $ease-trans;
 }
 
 .invalid-input {
-    border-color: $error-color !important;
-    transition: 250ms $ease-trans;
+  border-color: $error-color !important;
+  transition: 250ms $ease-trans;
 }
 
 .password-input {
-    display: grid;
-    grid-template-columns: 90% 1fr;
-    border: 1px solid $border-line-clr;
-    border-radius: 0.3rem;
+  display: grid;
+  grid-template-columns: 90% 1fr;
+  border: 1px solid $border-line-clr;
+  border-radius: 0.3rem;
 
-    input {
-        border: none;
-    }
+  input {
+    border: none;
+  }
 
-    .password-input-eye {
-        display: flex;
-        place-items: center;
-        background: transparent;
-        padding: 5px;
-    }
+  .password-input-eye {
+    display: flex;
+    place-items: center;
+    background: transparent;
+    padding: 5px;
+  }
 }
 
-.form-container {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    min-height: 350px;
-    transition: 500ms $ease-in-out-trans;
+.form-container,
+.edit-form-container {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  min-height: 330px;
+  transition: 500ms $ease-trans;
 
-    form {
-        width: 100%;
-        left: 0;
-        transition: 550ms $ease-trans;
+  form {
+    width: 100%;
+    left: 0;
+    transition: 550ms $ease-trans;
+  }
+
+  #per_info_form {
+    position: absolute;
+    opacity: 0;
+    left: 100%;
+
+    .icon-label {
+      gap: 0.4rem;
     }
-
-    #per_info_form {
-        position: absolute;
-        opacity: 0;
-        left: 100%;
-
-        .icon-label {
-            gap: 0.4rem;
-        }
-    }
+  }
 }
 
 .edit-form-container {
+  .form-options {
     position: relative;
     display: flex;
-    overflow: hidden;
-    transition: 500ms $ease-in-out-trans;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    left: 0;
+    transition: 500ms $ease-trans;
 
-    .form-options {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        left: 0;
-        transition: 500ms $ease-trans;
+    .edit-form-option {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.3rem;
+      padding: 1rem;
+      border: 1px solid $border-line-clr;
+      width: inherit;
+      border-radius: 0.3rem;
+      transition: 150ms $ease-trans;
+      cursor: pointer;
+      user-select: none;
 
-        .edit-form-option {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.3rem;
-            padding: 1rem;
-            border: 1px solid $border-line-clr;
-            width: inherit;
-            border-radius: 0.3rem;
-            transition: 150ms $ease-trans;
-            cursor: pointer;
-            user-select: none;
+      h3 {
+        font-weight: 600;
+        font-size: 1rem;
+      }
 
-            h3 {
-                font-weight: 600;
-                font-size: 1rem;
-            }
+      p {
+        opacity: 0.7;
+      }
 
-            p {
-                opacity: 0.7;
-            }
-
-            &:hover {
-                background-color: $table-header-bg;
-            }
-        }
-
-        .active {
-            background-color: $table-header-bg;
-        }
+      &:hover {
+        background-color: $table-header-bg;
+      }
     }
 
-    form {
-        width: 100%;
-        left: 0;
-        transition: 550ms $ease-trans;
+    .active {
+      background-color: $table-header-bg;
     }
+  }
 
-    #gen_info_form,
-    #per_info_form {
-        position: absolute;
-        opacity: 0;
-        left: 100%;
+  form {
+    width: 100%;
+    left: 0;
+    transition: 550ms $ease-trans;
+  }
 
-        .icon-label {
-            gap: 0.4rem;
-        }
+  #gen_info_form,
+  #per_info_form {
+    position: absolute;
+    opacity: 0;
+    left: 100%;
+
+    .icon-label {
+      gap: 0.4rem;
     }
+  }
 }
 
 .user-photo-wrapper {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.2rem;
-    border: 1px solid $border-line-clr;
-    border-radius: 0.3rem;
-    padding: 1rem 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  border: 1px solid $border-line-clr;
+  border-radius: 0.3rem;
+  padding: 1rem 0;
 
-    p {
-        text-align: center;
-        font-size: 0.8rem;
-    }
+  p {
+    text-align: center;
+    font-size: 0.8rem;
+  }
 
+  .upload-button {
+    border-radius: 50%;
+    background-color: $border-line-clr;
+    transition: 300ms $ease-trans;
+  }
+
+  &:hover {
     .upload-button {
-        border-radius: 50%;
-        background-color: $border-line-clr;
-        transition: 300ms $ease-trans;
+      transform: scale(1.1);
     }
-
-    &:hover {
-        .upload-button {
-            transform: scale(1.1);
-        }
-    }
+  }
 }
 
 .user-photo-container {
-    display: none;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+  display: none;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }

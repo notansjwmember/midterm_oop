@@ -132,33 +132,31 @@ form {
   padding: 5px;
 }
 
-.form-container {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  min-height: 350px;
-  transition: 500ms cubic-bezier(0.74, 0, 0.33, 1);
-}
-.form-container form {
-  width: 100%;
-  left: 0;
-  transition: 550ms cubic-bezier(0.47, -0.01, 0.38, 1);
-}
-.form-container #per_info_form {
-  position: absolute;
-  opacity: 0;
-  left: 100%;
-}
-.form-container #per_info_form .icon-label {
-  gap: 0.4rem;
-}
-
+.form-container,
 .edit-form-container {
   position: relative;
   display: flex;
   overflow: hidden;
-  transition: 500ms cubic-bezier(0.74, 0, 0.33, 1);
+  min-height: 330px;
+  transition: 500ms cubic-bezier(0.47, -0.01, 0.38, 1);
 }
+.form-container form,
+.edit-form-container form {
+  width: 100%;
+  left: 0;
+  transition: 550ms cubic-bezier(0.47, -0.01, 0.38, 1);
+}
+.form-container #per_info_form,
+.edit-form-container #per_info_form {
+  position: absolute;
+  opacity: 0;
+  left: 100%;
+}
+.form-container #per_info_form .icon-label,
+.edit-form-container #per_info_form .icon-label {
+  gap: 0.4rem;
+}
+
 .edit-form-container .form-options {
   position: relative;
   display: flex;

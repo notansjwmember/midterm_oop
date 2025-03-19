@@ -15,9 +15,17 @@ async function createUser(formData) {
   }
 }
 
+async function fetchUser(user_id) {
+  const response = await fetch(`/api/users.php?user_id=${user_id}`);
+  const data = await response.json();
+
+  console.log(data);
+  user = data;
+}
+
 async function fetchUsers(page = 1) {
   const response = await fetch(
-    `/api/users.php?page=${page}&limit=${usersPerPage}`,
+    `/api/users.php?page=${page}&limit=${usersPerPage}&action=all`,
   );
   const data = await response.json();
 

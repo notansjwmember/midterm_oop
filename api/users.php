@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-if ($method == "GET") {
+if ($method == "GET" && $_GET["action"] == "all") {
     $limit = isset($_GET["limit"]) ? (int) $_GET["limit"] : 13;
     $page = isset($_GET["page"]) ? (int) $_GET["page"] : 1;
     $offset = ($page - 1) * $limit; // complement for zero based index
@@ -36,6 +36,23 @@ if ($method == "GET") {
 
     // total pages is key here for the paginatio to work
     echo json_encode(["users" => $users, "totalPages" => $totalPages]);
+} else {
+    $user_id = $_GET["user_id"];
+
+    $query = $conn->prepare(
+        "SELECT * FROM users WHERE user_id = ?"
+    );
+    $query->bind_param("i", $user_id);
+    $query->execute();
+
+    $result = $query->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user) {
+        echo json_encode($user);
+    } else {
+        echo json_encode(["error" => "Could not fetch user"]);
+    }
 }
 
 $fields = [
