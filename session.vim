@@ -13,13 +13,14 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +168 index.php
-badd +18 scripts/modules/popup.js
-badd +104 scripts/modules/form.js
-badd +37 styles/components/_form.scss
+badd +221 index.php
+badd +110 scripts/modules/popup.js
+badd +26 scripts/modules/form.js
+badd +48 scripts/modules/api.js
+badd +128 api/users.php
 argglobal
 %argdel
-edit scripts/modules/popup.js
+edit scripts/modules/api.js
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -36,10 +37,10 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 116 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 121 + 119) / 238)
+exe 'vert 1resize ' . ((&columns * 129 + 141) / 283)
+exe 'vert 2resize ' . ((&columns * 153 + 141) / 283)
 argglobal
-balt scripts/modules/form.js
+balt index.php
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -49,29 +50,46 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-2,5fold
-7,10fold
-1,12fold
+4,6fold
+4,7fold
+9,15fold
+1,16fold
+22,24fold
 22,25fold
-22,26fold
-14,26fold
-34,35fold
-34,36fold
-29,36fold
+27,32fold
+19,33fold
+39,40fold
+37,42fold
+37,43fold
+45,50fold
+36,51fold
+55,57fold
+54,59fold
+63,65fold
+71,76fold
+70,77fold
+82,85fold
+82,86fold
+90,113fold
+115,116fold
+80,119fold
+80,120fold
+122,126fold
+62,133fold
 let &fdl = &fdl
-let s:l = 21 - ((17 * winheight(0) + 31) / 63)
+let s:l = 48 - ((46 * winheight(0) + 37) / 75)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 0
+keepjumps 48
+normal! 05|
 wincmd w
 argglobal
-if bufexists(fnamemodify("styles/components/_form.scss", ":p")) | buffer styles/components/_form.scss | else | edit styles/components/_form.scss | endif
+if bufexists(fnamemodify("api/users.php", ":p")) | buffer api/users.php | else | edit api/users.php | endif
 if &buftype ==# 'terminal'
-  silent file styles/components/_form.scss
+  silent file api/users.php
 endif
-balt scripts/modules/form.js
+balt index.php
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -81,41 +99,49 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-3,7fold
-10,12fold
 21,22fold
-25,29fold
-15,30fold
-40,43fold
+32,34fold
+8,38fold
+42,43fold
 51,52fold
-46,53fold
-33,54fold
-85,87fold
-90,91fold
-94,95fold
-72,96fold
-99,100fold
-63,101fold
-104,107fold
-116,117fold
-111,118fold
-57,119fold
-133,135fold
-138,141fold
+53,54fold
+39,55fold
+58,72fold
+84,85fold
+86,87fold
+98,99fold
+100,101fold
+107,109fold
+119,120fold
+121,122fold
+79,125fold
+134,136fold
 145,146fold
-144,147fold
-122,148fold
-151,155fold
+147,148fold
+137,149fold
+150,151fold
+161,162fold
+163,164fold
+126,167fold
+78,168fold
+181,182fold
+185,186fold
+191,192fold
+196,197fold
+203,204fold
+209,210fold
+211,212fold
+172,213fold
 let &fdl = &fdl
-let s:l = 37 - ((36 * winheight(0) + 31) / 63)
+let s:l = 128 - ((42 * winheight(0) + 37) / 75)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 37
-normal! 017|
+keepjumps 128
+normal! 031|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 116 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 121 + 119) / 238)
+exe 'vert 1resize ' . ((&columns * 129 + 141) / 283)
+exe 'vert 2resize ' . ((&columns * 153 + 141) / 283)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
