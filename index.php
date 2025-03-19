@@ -60,7 +60,7 @@
 
       <div class="form-container">
 
-        <form id="gen_info_form">
+        <form id="gen_info_form" autocomplete>
           <h3 class="sub-title">General information</h3>
           <div class="form-input">
             <label for="name">Name *</label>
@@ -108,7 +108,7 @@
           </div>
         </form>
 
-        <form id="per_info_form">
+        <form id="per_info_form" autocomplete>
           <div class="icon-label">
             <button type="button" class="back-button" onclick="handleStep(0, popups[0])">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
@@ -185,7 +185,7 @@
       <p>Edit</p>
     </div>
     <div class="line" style="opacity: 0.5;"></div>
-    <div class="flex popup-action-button delete-button">
+    <div class="flex popup-action-button delete-button" onclick="openDeletePopup()">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path d="M4 7l16 0" />
@@ -230,7 +230,7 @@
           </div>
         </div>
 
-        <form id="gen_info_form">
+        <form id="gen_info_form" autocomplete>
           <div class="icon-label">
             <button type="button" class="back-button" onclick="handleEditFormStep(1, formOption)">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
@@ -288,7 +288,7 @@
           </div>
         </form>
 
-        <form id="per_info_form">
+        <form id="per_info_form" autocomplete>
           <div class="icon-label">
             <button type="button" class="back-button" onclick="handleEditFormStep(1, formOption)">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left">
@@ -325,16 +325,6 @@
             <label for="user_photo">Profile picture</label>
             <div class="user-photo-wrapper">
               <img class="user-photo-container"></img>
-              <div class="icon-button upload-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                  <path d="M7 9l5 -5l5 5" />
-                  <path d="M12 4l0 12" />
-                </svg>
-              </div>
-              <p id="user-photo-text">Click to upload or drag and drop<br />
-                SVG, PNG, or JPG (min. 2MB)</p>
               <input id="edit-user-photo" style="display: none;" type="file" name="user_photo">
             </div>
           </div>
@@ -353,8 +343,6 @@
 
     </div>
   </div>
-
-  <div class="popup-delete-wrapper"></div>
 
   <script src="scripts/modules/popup.js"></script>
   <script src="scripts/modules/form.js"></script>

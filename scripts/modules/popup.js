@@ -36,9 +36,9 @@ function openEditPopup() {
   const inputs = popup.form.querySelectorAll("input");
   const options = popup.form.querySelectorAll("option");
   const textarea = popup.form.querySelectorAll("textarea");
-
+  const image = popup.form.querySelector(".user-photo-container");
   inputs.forEach((input) => {
-    if (input.type !== "file") {
+    if (input.type !== "file" && input.type !== "password") {
       const inputName = input.name;
       input.value = user[inputName];
     }
@@ -54,8 +54,10 @@ function openEditPopup() {
     const inputName = ta.name;
     ta.textContent = user[inputName];
   });
-}
 
+  image.style.display = "block";
+  image.src = user["user_photo"];
+}
 function closePopup(popup) {
   resetInvalidInputs(popup);
 
@@ -74,8 +76,19 @@ document.addEventListener("click", (event) => {
   }
 });
 
+function openDeletePopup() {
+  const confirmation = confirm("Are you sure you want to delete this user?");
+
+  if (confirmation) {
+    deleteUser(user["user_id"]);
+  }
+}
+
 function openActionPopup(event, user_id) {
   actionPopup.style.display = "grid";
+
+  actionPopup.style.left =
+    event.currentTarget.getBoundingClientRect().left + "px";
   actionPopup.style.top =
     event.currentTarget.getBoundingClientRect().top + "px";
 

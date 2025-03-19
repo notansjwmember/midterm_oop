@@ -36,7 +36,7 @@ if ($method == "GET" && $_GET["action"] == "all") {
 
     // total pages is key here for the paginatio to work
     echo json_encode(["users" => $users, "totalPages" => $totalPages]);
-} else {
+} else if ($method == "GET" && $_GET["action"] == "single") {
     $user_id = $_GET["user_id"];
 
     $query = $conn->prepare(
@@ -49,9 +49,9 @@ if ($method == "GET" && $_GET["action"] == "all") {
     $user = $result->fetch_assoc();
 
     if ($user) {
-        echo json_encode($user);
+        die(json_encode($user));
     } else {
-        echo json_encode(["error" => "Could not fetch user"]);
+        die(json_encode(["error" => "Could not fetch user"]));
     }
 }
 
@@ -74,20 +74,20 @@ $fields = [
 
 $field_types = str_repeat("s", count($fields));
 
-if ($method == "POST") {
-    $data = $_POST;
 
-    $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
+if ($method == "POST" && isset($_POST["action"])) {
+    if ($_POST["action"] == "update") {
+        $data = $_POST;
 
-    $uploadDir = "../uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
+        unset($data["action"]);
 
-    if (
-        isset($_FILES["user_photo"]) &&
-        $_FILES["user_photo"]["error"] === UPLOAD_ERR_OK
-    ) {
+        if (isset($data["password"]) && !empty($data["password"])) {
+            $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
+        } else {
+            unset($data["password"]);
+        }
+
+        $uploadDir = "../uploads/";
         $fileTmp = $_FILES["user_photo"]["tmp_name"];
         $fileName = basename($_FILES["user_photo"]["name"]);
         $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -100,84 +100,117 @@ if ($method == "POST") {
         } else {
             die(json_encode(["error" => "Failed to upload profile picture"]));
         }
-    } else {
-        $data["user_photo"] = "../uploads/default.jpg";
+
+        $updates = [];
+        $values = [];
+
+        foreach ($data as $column => $value) {
+            $updates[] = "$column = ?";
+            $values[] = $value;
+        }
+
+        $query = "UPDATE users SET " . implode(", ", $updates) . " WHERE user_id = ?";
+        $values[] = $data["user_id"];
+
+        $stmt = $conn->prepare($query);
+        $types = str_repeat("s", count($values) - 1) . "i";
+        $stmt->bind_param($types, ...$values);
+
+        if ($stmt->execute()) {
+            echo json_encode(["success" => "User updated successfully"]);
+        } else {
+            echo json_encode(["error" => "Error while updating user"]);
+        }
+
+        $stmt->close();
+    } else if ($_POST["action"] == "create") {
+        $data = $_POST;
+        unset($data["action"]);
+
+        $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
+
+        $uploadDir = "../uploads/";
+
+        if (
+            isset($_FILES["user_photo"]) &&
+            $_FILES["user_photo"]["error"] === UPLOAD_ERR_OK
+        ) {
+            $fileTmp = $_FILES["user_photo"]["tmp_name"];
+            $fileName = basename($_FILES["user_photo"]["name"]);
+            $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+
+            $newFileName = uniqid("profile_", true) . "." . $fileType;
+            $uploadPath = $uploadDir . $newFileName;
+
+            if (move_uploaded_file($fileTmp, $uploadPath)) {
+                $data["user_photo"] = $uploadPath;
+            } else {
+                die(json_encode(["error" => "Failed to upload profile picture"]));
+            }
+        } else {
+            $data["user_photo"] = "../uploads/default.jpg";
+        }
+
+        $placeholders = implode(", ", array_fill(0, count($fields), "?"));
+        $columns = implode(", ", $fields);
+        $query = "INSERT INTO users ($columns) VALUES ($placeholders)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param($field_types, ...array_values($data));
+
+        if ($stmt->execute()) {
+            echo json_encode(["success" => "User added succesfully"]);
+        } else {
+            echo json_encode(["error" => "Error while adding user"]);
+        }
+
+        $stmt->close();
     }
-
-    $placeholders = implode(", ", array_fill(0, count($fields), "?"));
-    $columns = implode(", ", $fields);
-    $query = "INSERT INTO users ($columns) VALUES ($placeholders)";
-
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param($field_types, ...array_values($data));
-
-    if ($stmt->execute()) {
-        echo json_encode(["success" => "User added succesfully"]);
-    } else {
-        echo json_encode(["error" => "Error while adding user"]);
-    }
-
-    $stmt->close();
 }
 
-if ($method == "PUT") {
-    parse_str(file_get_contents("php://input"), $data);
 
-    if (isset($data["password"]) && !empty($data["password"])) {
-        $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
-    } else {
-        unset($data["password"]); // Prevent overriding with NULL
+if ($method == "DELETE") {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    // Read JSON from request body
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+
+    // Debugging output
+    if (!$data) {
+        die(json_encode(["error" => "No JSON received", "raw_input" => $input]));
     }
 
-    $uploadDir = "../uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    if (!isset($data["user_id"])) {
+        die(json_encode(["error" => "user_id not found in request body"]));
     }
 
-    if (
-        isset($_FILES["user_photo"]) &&
-        $_FILES["user_photo"]["error"] === UPLOAD_ERR_OK
-    ) {
-        $fileTmp = $_FILES["user_photo"]["tmp_name"];
-        $fileName = basename($_FILES["user_photo"]["name"]);
-        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+    $user_id = intval($data["user_id"]);
 
-        $newFileName = uniqid("profile_", true) . "." . $fileType;
-        $uploadPath = $uploadDir . $newFileName;
-
-        if (move_uploaded_file($fileTmp, $uploadPath)) {
-            $data["user_photo"] = $newFileName;
-        } else {
-            die(json_encode(["error" => "Failed to upload profile picture"]));
-        }
+    if (!$user_id) {
+        die(json_encode(["error" => "Invalid user_id"]));
     }
 
-    if (empty($data)) {
-        die(json_encode(["error" => "No fields provided for update"]));
+    // Debugging: Check database connection
+    if (!$conn) {
+        die(json_encode(["error" => "Database connection failed"]));
     }
 
-    $updates = [];
-    $values = [];
+    // Prepare and execute DELETE statement
+    $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
 
-    foreach ($data as $column => $value) {
-        $updates[] = "$column = ?";
-        $values[] = $value;
+    if (!$stmt) {
+        die(json_encode(["error" => "SQL error: " . $conn->error]));
     }
 
-    $query = "UPDATE users SET " . implode(", ", $updates) . " WHERE user_id = ?";
-    $values[] = $data["user_id"];
-
-    $stmt = $conn->prepare($query);
-    $types = str_repeat("s", count($values) - 1) . "i";
-    $stmt->bind_param($types, ...$values);
+    $stmt->bind_param("i", $user_id);
 
     if ($stmt->execute()) {
-        echo json_encode(["success" => "User updated successfully"]);
+        die(json_encode(["success" => "User deleted successfully"]));
     } else {
-        echo json_encode(["error" => "Error while updating user"]);
+        die(json_encode(["error" => "Error executing delete", "stmt_error" => $stmt->error]));
     }
-
-    $stmt->close();
 }
 
 mysqli_close($conn);

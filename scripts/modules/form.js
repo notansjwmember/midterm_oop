@@ -82,7 +82,7 @@ function handleEditFormStep(step) {
   if (step == 2) {
     nextStepEdit.style.backgroundColor = "#274f7d";
     nextStepEdit.textContent = "Save changes";
-    nextStepEdit.onclick = () => handleFormData();
+    nextStepEdit.onclick = () => handleFormData(popups[1]);
   }
 
   if (step == 1) {
@@ -95,7 +95,7 @@ function handleEditFormStep(step) {
     prevEditForm.style.left = "100%";
     prevEditForm.style.opacity = 0;
     nextEditForm.style.left = "100%";
-    nextEditForm.style.opacity = 0;
+    nextEditForm.style.opacity = 1;
 
     nextStepEdit.style.backgroundColor = "#9843dd";
     nextStepEdit.textContent = "Next step";
@@ -128,32 +128,49 @@ function handleEditFormStep(step) {
   }
 }
 
-function handleFormData() {
+function handleFormData(popup) {
+  const nextForm = popup.form.querySelector("#per_info_form");
   const nextFormData = new FormData(nextForm);
-  let isValid = true;
 
-  nextFormData.forEach((value, key) => {
-    if (req_fields.includes(key) && !value) {
-      isValid = false;
-      const input = nextForm.querySelector(`[name="${key}"]`);
-      const password = nextForm.querySelector(".password-input");
-      if (input) input.classList.add("invalid-input");
-      if (password) password.classList.add("invalid-input");
-    }
-  });
+  if (popup.form == formContainer) {
+    let isValid = true;
 
-  if (!isValid) return;
+    nextFormData.forEach((value, key) => {
+      if (req_fields.includes(key) && !value) {
+        isValid = false;
+        const input = nextForm.querySelector(`[name="${key}"]`);
+        const password = nextForm.querySelector(".password-input");
+        if (input) input.classList.add("invalid-input");
+        if (password) password.classList.add("invalid-input");
+      }
+    });
 
-  prevFormData.forEach((value, key) => {
-    formData.append(key, value);
-  });
+    if (!isValid) return;
+
+    prevFormData.forEach((value, key) => {
+      formData.append(key, value);
+    });
+  } else {
+    const prevForm = popup.form.querySelector("#gen_info_form");
+    const prevEditFormData = new FormData(prevForm);
+
+    prevEditFormData.forEach((value, key) => {
+      formData.append(key, value);
+    });
+
+    formData.append("user_id", user["user_id"]);
+  }
 
   nextFormData.forEach((value, key) => {
     formData.append(key, value);
   });
 
   // redirect to user api
-  createUser(formData);
+  if (popup.form == formContainer) {
+    createUser(formData);
+  } else {
+    updateUser(formData);
+  }
 }
 
 // form animations
@@ -163,7 +180,7 @@ function formNextAnimation(popup) {
   nextForm.style.display = "flex";
   nextStep.textContent = "Create user";
   nextStep.style.backgroundColor = "#274f7d";
-  nextStep.onclick = () => handleFormData();
+  nextStep.onclick = () => handleFormData(popups[0]);
 
   setTimeout(() => {
     prevForm.style.left = "-100%";
@@ -195,6 +212,8 @@ function formPrevAnimation(popup) {
 
 // listen to both forms regarding profile picture upload
 wrappers.forEach((wrap) => {
+  let uploadButton = wrap.querySelector(".upload-button");
+
   wrap.addEventListener("click", () => {
     wrap.querySelector("input[name='user_photo']").click();
   });
@@ -204,10 +223,13 @@ wrappers.forEach((wrap) => {
     .addEventListener("change", (e) => {
       const file = e.target.files[0];
 
-      wrap.querySelector(".upload-button").style.display = "none";
-      wrap.querySelector("#user-photo-text").textContent = wrap.querySelector(
-        "input[name='user_photo']",
-      ).files[0].name;
+      if (uploadButton) {
+        uploadButton.style.display = "none";
+
+        wrap.querySelector("#user-photo-text").textContent = wrap.querySelector(
+          "input[name='user_photo']",
+        ).files[0].name;
+      }
 
       if (file) {
         const blobUrl = URL.createObjectURL(file);

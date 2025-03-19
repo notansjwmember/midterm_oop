@@ -7,7 +7,7 @@ let prevFormHeight;
 let formOptionHeight;
 
 // controls for pagination
-let usersPerPage = 10;
+let usersPerPage = 15;
 let currentPage = 1;
 
 let user;

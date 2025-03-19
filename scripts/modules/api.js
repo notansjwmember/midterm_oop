@@ -1,4 +1,6 @@
 async function createUser(formData) {
+  formData.append("action", "create");
+
   const response = await fetch("/api/users.php", {
     method: "POST",
     body: formData,
@@ -6,20 +8,54 @@ async function createUser(formData) {
 
   if (response.ok) {
     alert("User created successfully");
-
     prevForm.reset();
     nextForm.reset();
-    closePopup(popup, popupContainer, formContainer);
+    formData = new FormData();
+    closePopup(popups[0]);
+    fetchUsers();
+  }
+}
 
+async function updateUser(formData) {
+  formData.append("action", "update");
+
+  const response = await fetch(`/api/users.php`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (response.ok) {
+    alert("User updated successfully");
+    currentPage = 1;
+    formData = new FormData();
+    closePopup(popups[1]);
+    fetchUsers();
+  }
+}
+
+async function deleteUser(user_id) {
+  const response = await fetch(`/api/users.php`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id }),
+  });
+
+  if (response.ok) {
+    alert("User deleted successfully");
+    currentPage = 1;
+    formData = new FormData();
+    closePopup(popups[1]);
     fetchUsers();
   }
 }
 
 async function fetchUser(user_id) {
-  const response = await fetch(`/api/users.php?user_id=${user_id}`);
+  const response = await fetch(
+    `/api/users.php?user_id=${user_id}&action=single`,
+  );
   const data = await response.json();
-
-  console.log(data);
   user = data;
 }
 
