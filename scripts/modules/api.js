@@ -1,3 +1,10 @@
+const errorIcon = `
+<svg  xmlns="http://www.w3.org/2000/svg"  width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.7"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-exclamation-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>
+`;
+const successIcon = `
+<svg  xmlns="http://www.w3.org/2000/svg"  width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.7"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
+`;
+
 async function createUser(formData) {
   formData.append("action", "create");
 
@@ -5,14 +12,17 @@ async function createUser(formData) {
     method: "POST",
     body: formData,
   });
+  const data = await response.json();
 
   if (response.ok) {
-    alert("User created successfully");
+    showAlertPopup("Success", successIcon, data.success);
     prevForm.reset();
     nextForm.reset();
     formData = new FormData();
     closePopup(popups[0]);
     fetchUsers();
+  } else {
+    showAlertPopup("Error", errorIcon, data.error);
   }
 }
 
@@ -23,13 +33,16 @@ async function updateUser(formData) {
     method: "POST",
     body: formData,
   });
+  const data = await response.json();
 
   if (response.ok) {
-    alert("User updated successfully");
+    showAlertPopup("Success", successIcon, data.success);
     currentPage = 1;
     formData = new FormData();
     closePopup(popups[1]);
     fetchUsers();
+  } else {
+    showAlertPopup("Error", errorIcon, data.error);
   }
 }
 
@@ -41,13 +54,16 @@ async function deleteUser(user_id) {
     },
     body: JSON.stringify({ user_id }),
   });
+  const data = await response.json();
 
   if (response.ok) {
-    alert("User deleted successfully");
+    showAlertPopup("Success", successIcon, data.success);
     currentPage = 1;
     formData = new FormData();
     closePopup(popups[1]);
     fetchUsers();
+  } else {
+    showAlertPopup("Error", errorIcon, data.error);
   }
 }
 

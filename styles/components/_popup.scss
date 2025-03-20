@@ -66,3 +66,39 @@
         color: $error-color;
     }
 }
+
+.popup-alert-container {
+    position: fixed;
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    grid-template-columns: 90% 10%;
+    background-color: $background;
+    border: 1px solid $border-line-clr;
+    border-radius: 0.3rem;
+    padding: 10px;
+    width: 320px;
+    z-index: 100;
+    right: 15px;
+    bottom: 15px;
+    transition: 200ms $ease-trans;
+
+    .text-container {
+        display: grid;
+        gap: 0.6rem;
+
+        h4 {
+            line-height: 5px;
+        }
+    }
+
+    .icon-label {
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    .close-button {
+        padding: 0;
+        margin: 0;
+    }
+}

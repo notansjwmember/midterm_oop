@@ -9,6 +9,24 @@
 </head>
 
 <body>
+
+  <div class="popup-alert-container">
+    <div class="icon-label">
+      <div class="icon-placeholder"></div>
+      <div class="text-container">
+        <h4 class="title-placeholder"></h4>
+        <p class="text-placeholder"></p>
+      </div>
+    </div>
+    <button type="button" class="close-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M18 6l-12 12" />
+        <path d="M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
   <div class="header">
     <h1>User management</h1>
     <button type="button" class="primary-button icon-label" onclick="openPopup(popups[0])">
@@ -348,6 +366,7 @@
   <script src="scripts/modules/form.js"></script>
   <script src="scripts/modules/api.js"></script>
   <script src="scripts/modules/table.js"></script>
+  <script src="scripts/modules/alert.js"></script>
   <script src="scripts/main.js"></script>
 
 </body>

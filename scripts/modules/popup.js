@@ -108,3 +108,27 @@ function closeActionPopup() {
     actionPopup.display = "none";
   }, 200);
 }
+
+function showAlertPopup(title, icon, message) {
+  const popup = document.querySelector(".popup-alert-container");
+
+  popup.querySelector(".title-placeholder").innerHTML = title;
+  popup.querySelector(".icon-placeholder").innerHTML = icon;
+  popup.querySelector(".text-placeholder").innerHTML = message;
+
+  popup.style.display = "grid";
+
+  setTimeout(() => {
+    popup.style.visibility = "visible";
+    popup.style.opacity = 1;
+  }, 200);
+
+  setTimeout(() => {
+    popup.style.visibility = "hidden";
+    popup.style.opacity = 0;
+  }, 2700);
+
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 3700);
+}
