@@ -1,12 +1,25 @@
 <?php
-$host = "127.0.0.1";
-$user = "root";
-$pass = "skibiditoilet";
-$db = "oop_php";
+class Database
+{
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+  private $host = "127.0.0.1";
+  private $user = "root";
+  private $pass = "skibiditoilet";
+  private $db = "oop_php";
 
-if (!$conn) {
-  die("connection failed: " . mysqli_connect_error());
+  public $conn;
+
+  public function __construct()
+  {
+    $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
+
+    if ($this->conn->connect_error) {
+      die(json_encode(["error" => "Database connection failed: " . $this->conn->connect_error]));
+    }
+  }
+
+  public function getConnection()
+  {
+    return $this->conn;
+  }
 }
-

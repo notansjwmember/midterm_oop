@@ -366,7 +366,6 @@
   <script src="scripts/modules/form.js"></script>
   <script src="scripts/modules/api.js"></script>
   <script src="scripts/modules/table.js"></script>
-  <script src="scripts/modules/alert.js"></script>
   <script src="scripts/main.js"></script>
 
 </body>
