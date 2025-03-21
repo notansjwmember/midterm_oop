@@ -1,4 +1,3 @@
-
 <?php
 require_once "./User.php";
 
@@ -20,8 +19,8 @@ class UserController
           $page = isset($data["page"]) ? (int) $data["page"] : 1;
           $offset = ($page - 1) * $limit;
 
-          $users = $this->userModel->fetchAll($limit, $offset);
-          echo json_encode(["users" => $users]);
+          $response = $this->userModel->fetchAll($limit, $offset);
+          echo json_encode($response);
         } elseif ($data["action"] === "single") {
           $user = $this->userModel->fetchUser($data["user_id"]);
           echo json_encode($user);
@@ -47,13 +46,12 @@ class UserController
         break;
 
       case "DELETE":
-        parse_str(file_get_contents("php://input"), $deleteData);
-        if (!isset($deleteData["user_id"])) {
-          echo json_encode(["error" => "user_id is required"]);
+        if (!isset($data["user_id"])) {
+          echo json_encode([$data["user_id"],  "error" => "user_id is required"]);
           return;
         }
 
-        if ($this->userModel->deleteUser($deleteData["user_id"])) {
+        if ($this->userModel->deleteUser($data["user_id"])) {
           echo json_encode(["success" => "User deleted successfully"]);
         } else {
           echo json_encode(["error" => "Failed to delete user"]);
@@ -66,4 +64,3 @@ class UserController
     }
   }
 }
-?>

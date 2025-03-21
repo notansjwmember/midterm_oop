@@ -13,12 +13,24 @@ class User
 
   public function fetchAll($limit, $offset)
   {
+    // get the length or count of users in db
+    $countQuery = $this->conn->query("SELECT COUNT(*) as total FROM users");
+    $totalUsers = $countQuery->fetch_assoc()["total"];
+
+    // set the total pages from the users available and limit per page
+    $totalPages = ceil($totalUsers / $limit);
+
     $query = $this->conn->prepare("SELECT * FROM users ORDER BY user_id ASC LIMIT ? OFFSET ?");
     $query->bind_param("ii", $limit, $offset);
     $query->execute();
 
     $result = $query->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
+    $users = $result->fetch_all(MYSQLI_ASSOC);
+
+    return [
+      "totalPages" => $totalPages,
+      "users" => $users,
+    ];
   }
 
   public function fetchUser($user_id)
@@ -104,7 +116,7 @@ class User
     if (move_uploaded_file($fileTmp, $uploadPath)) {
       $data["user_photo"] = $uploadPath;
     } else {
-      die(json_encode(["error" => "Failed to upload profile picture"]));
+      unset($data["user_photo"]);
     }
 
     $updates = [];

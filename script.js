@@ -10,7 +10,7 @@ const dbConfig = {
 };
 
 // Generate 15 users
-const generateUsers = async (count = 15) => {
+const generateUsers = async (count = 5) => {
   const users = [];
   const genders = ["male", "female", "other"];
 

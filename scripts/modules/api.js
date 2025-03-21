@@ -38,6 +38,10 @@ async function updateUser(formData) {
   if (response.ok) {
     showAlertPopup("Success", successIcon, data.success);
     currentPage = 1;
+
+    popups[1].form.querySelector("#gen_info_form").reset();
+    popups[1].form.querySelector("#per_info_form").reset();
+
     formData = new FormData();
     closePopup(popups[1]);
     fetchUsers();
